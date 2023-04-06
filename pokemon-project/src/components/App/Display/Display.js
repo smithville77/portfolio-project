@@ -19,15 +19,27 @@ function Display() {
     
 
   }, [])
+
+const pokemonList = displayList.map((data, index) => ({
+      name: data.name,
+      id: index + 1,
+      image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index +
+      1}.png`,
+    }))
+
   console.log(displayList)
+  console.log(pokemonList)
 
   return (
     <>
      <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={{ xs: 4, md: 6 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-           {displayList.map((pokemon) => {
+           {pokemonList.map((pokemon) => {
          return <Grid >
-         <CardDisplay  name={pokemon.name} />
+         <CardDisplay  
+            name={pokemon.name}
+            image={pokemon.image}
+          />
          </Grid>
        })}
           

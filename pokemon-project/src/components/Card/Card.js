@@ -8,23 +8,24 @@ import { CardActionArea } from '@mui/material';
 
 
 function CardDisplay(props) {
-const { name } = props
+const { name, image } = props
 
   return (
-<Card sx={{ width: 150, height: 150 }}>
+<Card sx={{ width: 200, height: 250 }}>
       <CardActionArea>
-        {/* <CardMedia
+        <CardMedia
           component="img"
-          height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
-          alt="green iguana"
-        /> */}
+          sx={{height: 170}}
+          image={`${image}`}
+          alt={name}
+        />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             info about {name}
+            
           </Typography>
         </CardContent>
       </CardActionArea>
