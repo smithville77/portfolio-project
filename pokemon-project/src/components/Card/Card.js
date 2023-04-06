@@ -11,7 +11,7 @@ function CardDisplay(props) {
 const { name } = props
 
   return (
-<Card sx={{ maxWidth: 145 }}>
+<Card sx={{ width: 150, height: 150 }}>
       <CardActionArea>
         {/* <CardMedia
           component="img"
