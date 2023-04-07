@@ -1,10 +1,16 @@
-import Display from './Display/Display';
+import Display from '../Display/Display';
+import NavBar from '../NavBar/NavBar';
+// import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import './App.css';
 
 function App() {
   return (
-   <Display />
+    <>
+    <NavBar />
+    <Display />
+    </>
+   
   );
 }
 
