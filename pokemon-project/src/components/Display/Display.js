@@ -25,28 +25,47 @@ function Display() {
  
 
   const sortAlpha = () => {
-    let sorted = pokemonList.sort((a, b) => a.name.localeCompare(b.name))
-    // let sortedResult = sorted.map((data, index) => ({
-    //   name: data.name,
-    //   id: index + 1,
-    //   image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index +
-    //   1}.png`})
-    // )
+
+    let pokemonIndexList = pokemonList.map((pokemon, index) => {
+      return {
+        ...pokemon,
+        index: index
+      }
+    })
+
+    let sorted = pokemonIndexList.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1
+      } else if (a.name > b.name) {
+        return 1
+      }
+      return 0
+    })
+
+    let sortedResult = sorted.map((data) => ({
+      name: data.name,
+      id: data.index + 1,
+      index: data.index,
+      image: `https://pokeapi.co/api/v2/pokemon/${data.name}/`})
+    )
+  
     
-   setDisplayList(sorted)
-    
+   return setDisplayList(sortedResult)
+
+  
   }
 
  
 
 
+
 const pokemonList = displayList.map((data, index) => ({
       name: data.name,
       id: index + 1,
-      image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index +
-      1}.png`,
-      // image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index +
-      // 1}.svg`,
+      index: index + 1,
+      // image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data.index + 1}.png`,
+      image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index}.svg`
+
     }))
 
   // console.log(displayList)
