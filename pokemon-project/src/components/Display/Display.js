@@ -1,12 +1,18 @@
 import CardDisplay from "../Card/Card";
 import Hero from "../Hero/Hero";
+import PokeInfoPage from "../PokeInfoPage/PokeInfoPage.";
 import { useEffect, useState } from "react"
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import { Button, Container } from "@mui/material";
+import { Button, Container, Link } from "@mui/material";
 
+
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 
 function Display() {
@@ -87,9 +93,34 @@ function Display() {
     
   };
 
+  /// sort by dropdown --- endpoint below
+  // `https://pokeapi.co/api/v2/generation/{id or name}/`
+  //------------------------
+
+  
+// const [generation, setGeneration] = useState('');
+//   const handleChange = (event) => {
+//     setGeneration(event.target.value)
+//   }
+//     const URL = `https://pokeapi.co/api/v2/generation/${generation}/`;
+
+//     useEffect(() => {
+//       fetch(URL)
+//       .then((res) => res.json())
+//       .then((data) => {
+//         setDisplayList(data);
+//       });
+
+//     })
+    
+    
+  
+//------------------
+
   return (
     <>
-      <div style={{ marginBottom: "500px" }}>
+    {/* Sets hero image */}
+      {/* <div style={{ marginBottom: "500px" }}>
         {hero === null ? (
           <div>Loading...</div>
         ) : (
@@ -99,7 +130,9 @@ function Display() {
             types={hero.types}
           />
         )}
-      </div>
+      </div> */}
+
+      
 
       <Container>
         <Button onClick={sortAlpha}>Sort alphabetically</Button>
@@ -107,6 +140,22 @@ function Display() {
       <Container>
         <Button onClick={sortByNumber}>Sort numerically</Button>
       </Container>
+
+
+      {/* <FormControl style={{width: "100px"}}>
+  <InputLabel id="demo-simple-select-label">Age</InputLabel>
+  <Select
+    labelId="demo-simple-select-label"
+    id="demo-simple-select"
+    value={generation}
+    label="Age"
+    onChange={handleChange}
+  >
+    <MenuItem value={1}>generation 1</MenuItem>
+    <MenuItem value={2}>generation 2</MenuItem>
+    <MenuItem value={3}>generation 3</MenuItem>
+  </Select>
+</FormControl> */}
 
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={{ xs: 4, md: 6 }} columns={{ xs: 4, sm: 8, md: 12 }}>

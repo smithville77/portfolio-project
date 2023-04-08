@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
 
 export default function NavBar() {
   return (
@@ -24,9 +25,15 @@ export default function NavBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             PokeSearch!
           </Typography>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit">About</Button>
-          <Button color="inherit">Contact</Button>
+          <Link to="/">
+            <Button color="inherit">Home</Button>
+          </Link>
+          {/* <Link to="/about">
+            <Button color="inherit">About</Button>
+          </Link>
+          <Link to="/contact">
+            <Button color="inherit">Contact</Button>
+          </Link> */}
         </Toolbar>
       </AppBar>
     </Box>
