@@ -5,9 +5,9 @@ import {
   Zoom,
   Fab,
   Button,
-  CardMedia
+  CardMedia,
 } from "@mui/material";
-import { KeyboardArrowUp } from "@mui/icons-material";
+import { CatchingPokemonTwoTone } from "@mui/icons-material";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 
 function ScrollToTop() {
@@ -22,6 +22,7 @@ function ScrollToTop() {
   }, [])
 
   return (
+    <>
     <Zoom in={trigger}>
       <Box
         role="presentation"
@@ -35,16 +36,22 @@ function ScrollToTop() {
       >
         <Fab
           onClick={scrollToTop}
-          color="primary"
+          color="error"
           size="small"
           aria-label="Scroll back to top"
           
         >
          
-          <KeyboardArrowUp fontSize="medium" />
+          
+          <CatchingPokemonTwoTone fontSize="large" />
+         
         </Fab>
-      </Box>
+        <p style={{ color: "black", fontWeight: "500", textAlign: "center", margin: 0, textShadow: " 0.5px 0.5px #000000"}}>top</p>
+      </Box> 
+      
     </Zoom>
+     
+    </>
   )
 }
 
