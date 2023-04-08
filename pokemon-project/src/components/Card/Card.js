@@ -8,7 +8,7 @@ import { CardActionArea } from '@mui/material';
 
 
 function CardDisplay(props) {
-const { name, image, chooseHero, index } = props
+const { name, image, id, chooseHero, index } = props
 
       
   function handleClick(name) {
@@ -20,7 +20,7 @@ const { name, image, chooseHero, index } = props
         <CardActionArea>
           <CardMedia
             value={name}
-            onClick={() => handleClick(name)}
+            onClick={() => handleClick(name, id)}
             component="img"
             sx={{height: 170}}
             image={`${image}`}
@@ -28,7 +28,7 @@ const { name, image, chooseHero, index } = props
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {`#${index} `}  
+              {`#${id} `}  
               {name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
