@@ -22,21 +22,74 @@ function Display() {
   const [hero, setHero] = useState(null);
   const [heroURL, setHeroURL] = useState(`https://pokeapi.co/api/v2/pokemon/bulbasaur/`);
 
+  const [currentPage, setCurrentPage] = useState(1)
+
+
+  // useEffect(() => {
+  //   const URL = `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${(currentPage-1)*20}`;
+  //   fetch(URL)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setDisplayList(data.results);
+  //       const pokemonList = data.results.map((data, index) => ({
+  //         name: data.name,
+  //         id: index + 1,
+  //         image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index + 1}.svg`,
+  //         // image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`,
+  //       }));
+  //       setPokemonList(prevState => [...prevState, ...pokemonList]);
+  //     });
+  // }, [currentPage]);
+
+
+  // two useEffect hooks used to render the initial 20 pokemon on page load (checking if page is the first page or not)  and if not loading the next 20.
   useEffect(() => {
-    const URL = `http://pokeapi.co/api/v2/pokemon/?limit=151`;
-    fetch(URL)
-      .then((res) => res.json())
-      .then((data) => {
-        setDisplayList(data.results);
-        const pokemonList = data.results.map((data, index) => ({
-          name: data.name,
-          id: index + 1,
-          image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index + 1}.svg`,
-          // image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`,
-        }));
-        setPokemonList(pokemonList);
-      });
-  }, []);
+    if (currentPage === 1) {
+      const URL = `https://pokeapi.co/api/v2/pokemon?limit=20&offset=0`;
+      fetch(URL)
+        .then((res) => res.json())
+        .then((data) => {
+          setDisplayList(data.results);
+          const pokemonList = data.results.map((data, index) => ({
+            name: data.name,
+            id: index + 1,
+            image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index + 1}.svg`,
+            
+          }));
+          setPokemonList(pokemonList);
+        });
+    } else {
+      const URL = `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${(currentPage-1)*20}`;
+      fetch(URL)
+        .then((res) => res.json())
+        .then((data) => {
+          setDisplayList(data.results);
+          const pokemonList = data.results.map((data, index) => ({
+            name: data.name,
+            id: index + 1 + ((currentPage - 1) * 20),
+            image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index + 1 + ((currentPage - 1) * 20)}.svg`,
+            
+          }));
+          setPokemonList(prevState => [...prevState, ...pokemonList]);
+        });
+    }
+  }, [currentPage]);
+  
+//function that listens for scroll event and checked is user has scrolled to bottom of the page, if they have the state of currentPage is updated to +1 and 20 more pokemon are loaded
+  function handleScroll() {
+    const { scrollTop, clientHeight, scrollHeight } =  document.documentElement;
+      if ( scrollTop + clientHeight >= scrollHeight - 5) {
+        setCurrentPage(prevState => prevState + 1)
+      }
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   useEffect(() => {
     fetch(heroURL)
@@ -88,6 +141,8 @@ function Display() {
     
     }
 
+
+    // sets the hero image and information, currently unused 
   const chooseHero = (name, id) => { 
     setHeroURL(`https://pokeapi.co/api/v2/pokemon/${id}/`);
     
@@ -116,6 +171,16 @@ function Display() {
     
   
 //------------------
+// ----------- window scroll -=--------------------
+
+window.onscroll = () => {
+
+  if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+
+  }
+}
+
+//-------------------end window scroll-------------------------------
 
   return (
     <>
