@@ -2,9 +2,12 @@ import CardDisplay from "../Card/Card";
 import Hero from "../Hero/Hero";
 import PokeInfoPage from "../PokeInfoPage/PokeInfoPage.";
 import { useEffect, useState } from "react"
-import { experimentalStyled as styled } from '@mui/material/styles';
+import "./display.css"
+
+import { CatchingPokemonTwoTone } from "@mui/icons-material";
+
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
+
 import Grid from '@mui/material/Unstable_Grid2';
 import { Button, Container, Link } from "@mui/material";
 
@@ -186,24 +189,28 @@ function Display() {
     <>
     {/* Sets hero image */}
       <Button onClick={handleRandom}>Random Pokemon</Button>
-      <div style={{ marginBottom: "500px" }}>
+      <div style={{ height: "400px" }}>
         {hero === null ? (
-          <div>Loading...</div>
+          <Container style={{paddingTop: "10%"}}>
+            <CatchingPokemonTwoTone  className={"ball"} />
+            <p style={{textAlign: "center"}}>Loading...</p>
+          </Container>
         ) : (
           <Hero 
             image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${hero.id}.png`}
             name={hero.species.name}
             types={hero.types}
+            id={hero.id}
           />
         )}
       </div>
 
       
 
-      <Container>
+      <Container style={{display: "flex", justifyContent: "space-evenly"}}>
         <Button onClick={sortAlpha}>Sort alphabetically</Button>
-      </Container>
-      <Container>
+      
+      
         <Button onClick={sortByNumber}>Sort numerically</Button>
       </Container>
 

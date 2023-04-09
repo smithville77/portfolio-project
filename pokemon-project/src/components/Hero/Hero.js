@@ -1,7 +1,7 @@
 import { Container } from "@mui/material"
 import Image from "mui-image"
 import { Link } from "react-router-dom"
-import Button from "@mui/material"
+
 
 function Hero(props) {
   const { name, image, id  } = props
@@ -18,7 +18,7 @@ function Hero(props) {
        */}
        
     </Container>
-    {/* <Button>more Information</Button> */}
+
     </Link>
   )
 }
