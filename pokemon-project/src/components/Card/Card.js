@@ -18,7 +18,7 @@ const { name, image, id, chooseHero, index } = props
   // }
 
   return (
-    <Link to={`/${id}`}>
+    <Link to={`/${id}`} style={{ textDecoration: "none"}}>
       <Card sx={{ width: 200, height: 250 }}>
         <CardActionArea>
           <CardMedia
@@ -31,9 +31,6 @@ const { name, image, id, chooseHero, index } = props
             alt={name}
           />
           
-          
-
-
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {`#${id} `}  
@@ -46,7 +43,7 @@ const { name, image, id, chooseHero, index } = props
           </CardContent>
         </CardActionArea>
       </Card>
-      </Link>
+    </Link>
 )
 }
 
