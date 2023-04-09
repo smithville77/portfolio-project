@@ -16,7 +16,9 @@ function Hero(props) {
         return <p>{type.type}</p>
       })}
        */}
+       
     </Container>
+
     </Link>
   )
 }
