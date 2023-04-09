@@ -20,26 +20,11 @@ function Display() {
   const [displayList, setDisplayList] = useState([]);
   const [pokemonList, setPokemonList] = useState([]);
   const [hero, setHero] = useState(null);
-  const [heroURL, setHeroURL] = useState(`https://pokeapi.co/api/v2/pokemon/bulbasaur/`);
+  // const [heroURL, setHeroURL] = useState();
 
   const [currentPage, setCurrentPage] = useState(1)
 
 
-  // useEffect(() => {
-  //   const URL = `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${(currentPage-1)*20}`;
-  //   fetch(URL)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setDisplayList(data.results);
-  //       const pokemonList = data.results.map((data, index) => ({
-  //         name: data.name,
-  //         id: index + 1,
-  //         image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index + 1}.svg`,
-  //         // image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`,
-  //       }));
-  //       setPokemonList(prevState => [...prevState, ...pokemonList]);
-  //     });
-  // }, [currentPage]);
 
 
   // two useEffect hooks used to render the initial 20 pokemon on page load (checking if page is the first page or not)  and if not loading the next 20.
@@ -50,10 +35,12 @@ function Display() {
         .then((res) => res.json())
         .then((data) => {
           setDisplayList(data.results);
+          
           const pokemonList = data.results.map((data, index) => ({
             name: data.name,
             id: index + 1,
-            image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index + 1}.svg`,
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png`,
+            // image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index + 1}.svg`,
             
           }));
           setPokemonList(pokemonList);
@@ -67,7 +54,8 @@ function Display() {
           const pokemonList = data.results.map((data, index) => ({
             name: data.name,
             id: index + 1 + ((currentPage - 1) * 20),
-            image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index + 1 + ((currentPage - 1) * 20)}.svg`,
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1 + ((currentPage - 1) * 20)}.png`,
+            // image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index + 1 + ((currentPage - 1) * 20)}.svg`,
             
           }));
           setPokemonList(prevState => [...prevState, ...pokemonList]);
@@ -82,7 +70,7 @@ function Display() {
         setCurrentPage(prevState => prevState + 1)
       }
   }
-
+  console.log(pokemonList)
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
@@ -91,11 +79,21 @@ function Display() {
     }
   }, [])
 
-  useEffect(() => {
+
+  
+
+  // sets hero image, not being used 
+  const handleRandom = () => {
+    let randomNum = Math.floor(Math.random() * 1000) + 1;
+    let heroURL = `https://pokeapi.co/api/v2/pokemon/${randomNum}`
     fetch(heroURL)
       .then((res) => res.json())
-      .then((data) => setHero(data));
-  }, [heroURL]);
+      .then((data) => {setHero(data);
+      console.log(data)})
+  
+  }
+   
+    
 
   const sortAlpha = () => {
     let pokemonIndexList = [...displayList].map((pokemon, index) => {
@@ -117,7 +115,8 @@ function Display() {
     let sortedResult = sorted.map((data, index) => ({
       name: data.name,
       id: data.index,
-      image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${data.index}.svg`
+      image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.index}.png`
+      // image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${data.index}.svg`
       // image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data.index}.png`
     }));
 
@@ -126,7 +125,8 @@ function Display() {
 
   const sortByNumber = () => {
     //sets the state back to original URL, and maps original data
-      const URL = `http://pokeapi.co/api/v2/pokemon/?limit=151`;
+      // const URL = `http://pokeapi.co/api/v2/pokemon/?limit=905`;
+      const URL = `https://pokeapi.co/api/v2/pokemon?limit=20&offset=0`;
       fetch(URL)
       .then((res) => res.json())
       .then((data) => {
@@ -134,7 +134,7 @@ function Display() {
         const pokemonList = data.results.map((data, index) => ({
           name: data.name,
           id: index + 1,
-          image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index + 1}.svg`,
+          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png`,
         }));
         setPokemonList(pokemonList);
       });
@@ -143,10 +143,10 @@ function Display() {
 
 
     // sets the hero image and information, currently unused 
-  const chooseHero = (name, id) => { 
-    setHeroURL(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+  // const chooseHero = (name, id) => { 
+  //   setHeroURL(`https://pokeapi.co/api/v2/pokemon/${id}/`);
     
-  };
+  // };
 
   /// sort by dropdown --- endpoint below
   // `https://pokeapi.co/api/v2/generation/{id or name}/`
@@ -173,29 +173,30 @@ function Display() {
 //------------------
 // ----------- window scroll -=--------------------
 
-window.onscroll = () => {
+// window.onscroll = () => {
 
-  if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+//   if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
 
-  }
-}
+//   }
+// }
 
 //-------------------end window scroll-------------------------------
 
   return (
     <>
     {/* Sets hero image */}
-      {/* <div style={{ marginBottom: "500px" }}>
+      <Button onClick={handleRandom}>Random Pokemon</Button>
+      <div style={{ marginBottom: "500px" }}>
         {hero === null ? (
           <div>Loading...</div>
         ) : (
           <Hero 
-            image={hero.sprites.front_shiny}
+            image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${hero.id}.png`}
             name={hero.species.name}
             types={hero.types}
           />
         )}
-      </div> */}
+      </div>
 
       
 
@@ -228,7 +229,7 @@ window.onscroll = () => {
             return (
               <Grid key={index}>
                 <CardDisplay
-                  chooseHero={(name) => chooseHero(name, pokemon.id)}
+                  // chooseHero={(name) => chooseHero(name, pokemon.id)}
                   id={pokemon.id}
                   name={pokemon.name}
                   image={pokemon.image}

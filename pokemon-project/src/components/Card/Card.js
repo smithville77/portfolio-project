@@ -26,7 +26,7 @@ const { name, image, id, chooseHero, index } = props
             // onClick={() => handleClick(name, id)}
 
             component="img"
-            sx={{height: 170}}
+            sx={{height: 170, maxWidth: 150, margin: "auto"}}
             image={`${image}`}
             alt={name}
           />
@@ -37,7 +37,7 @@ const { name, image, id, chooseHero, index } = props
               {name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              info about {name}
+              {/* info about {name} */}
               
             </Typography>
           </CardContent>
