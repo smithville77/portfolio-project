@@ -16,6 +16,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Image from "mui-image";
 
 
 function Display() {
@@ -188,12 +189,14 @@ function Display() {
   return (
     <>
     {/* Sets hero image */}
-      <Button onClick={handleRandom}>Random Pokemon</Button>
+     
       <div style={{ height: "400px" }}>
         {hero === null ? (
-          <Container style={{paddingTop: "10%"}}>
-            <CatchingPokemonTwoTone  className={"ball"} />
-            <p style={{textAlign: "center"}}>Loading...</p>
+          <Container style={{paddingTop: "10%", textAlign: "center"}}>
+            <CatchingPokemonTwoTone style={{fontSize: "48px"}} className={"ball"} />
+            
+            <h3>Loading...</h3>
+            
           </Container>
         ) : (
           <Hero 
@@ -207,11 +210,12 @@ function Display() {
 
       
 
-      <Container style={{display: "flex", justifyContent: "space-evenly"}}>
+      <Container style={{display: "flex", justifyContent: "space-evenly", marginBottom: "50px"}}>
         <Button onClick={sortAlpha}>Sort alphabetically</Button>
       
       
         <Button onClick={sortByNumber}>Sort numerically</Button>
+        <Button onClick={handleRandom}>Random Pokemon</Button>
       </Container>
 
 
@@ -230,8 +234,8 @@ function Display() {
   </Select>
 </FormControl> */}
 
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={{ xs: 4, md: 6 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+      <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+        <Grid container style={{display: "flex", textAlign: "center", justifyContent: "center"}} spacing={{ xs: 4, md: 6 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           {pokemonList.map((pokemon, index) => {
             return (
               <Grid key={index}>

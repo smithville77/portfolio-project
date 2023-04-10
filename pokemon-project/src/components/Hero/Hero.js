@@ -8,7 +8,7 @@ function Hero(props) {
   
   
   return (
-    <Link to={`/${id}`} style={{ textDecoration: "none"}}>
+    <Link to={`/${id}`} style={{ textDecoration: "none", color: "black"}}>
     <Container style={{ textAlign: "center", position: "absolute" }}>
       <Image style={{maxHeight: "300px", width: "300px"}} src={`${image}`} />
       <h1>{name}</h1>
