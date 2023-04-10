@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Container } from "@mui/material"
 import Image from "mui-image"
+import Button from "@mui/material"
+import { Link } from "react-router-dom"
 
 
 import { CatchingPokemonTwoTone } from "@mui/icons-material"
@@ -13,6 +15,7 @@ function PokeInfoPage() {
   const { id } = useParams()
 
   const pokemonID = id
+  const nextPokemon = id+1
 
   
   const URL = `https://pokeapi.co/api/v2/pokemon/${pokemonID}/`
@@ -22,7 +25,12 @@ function PokeInfoPage() {
 
   const [ pokedexEntry, setPokedexEntry ] = useState([])
   const [ pokeDexEntryLoading, setDexEntryLoading] = useState(true)
-  
+
+  //next pokemon state
+  // const [nextPokemon, setNextPokemon] = useState(pokemonID++)
+
+  // //previous pokemon state
+  // const [prevPokemon, setPrevPokemon] = useState(pokedexURL-1)
   
 
   useEffect(() => {
@@ -88,7 +96,7 @@ function PokeInfoPage() {
   <div style={{ display: "flex", alignItems: "center" }}>
     <p style={{ margin: 0 }}><strong>Ability:</strong></p>
     {pokeObject.abilities.map((ability, index) => (
-      <p style={{ margin: 0, marginLeft: index === 0 ? "5px" : "10px" }}>{ability.ability.name}</p>
+      <p style={{ margin: 0, marginLeft: "10px" }}><strong>{index+1}.</strong> {ability.ability.name}</p>
     ))}
   </div>
 </Container>
@@ -105,9 +113,16 @@ function PokeInfoPage() {
         <p>Sorry, that image doesn't exist</p>}</p>
     </Container>
     
-
-
+        <Link to={`/${nextPokemon}`}>
+        {/* <Image src={`${pokeObject.sprites.other["official-artwork"].front_default}`} /> */}
+        next
+        </Link>
+        {/* <Link to={`/${prevPokemon}`}> */}
+        {/* <Image src={`${pokeObject.sprites.other["official-artwork"].front_default}`} /> */}
+        {/* prev
+        </Link> */}
     </Container>
+    
     
   )
 }
