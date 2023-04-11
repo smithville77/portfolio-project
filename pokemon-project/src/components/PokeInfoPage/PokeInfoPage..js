@@ -6,16 +6,21 @@ import Button from "@mui/material"
 import { Link } from "react-router-dom"
 
 
-import { CatchingPokemonTwoTone } from "@mui/icons-material"
+import { ArrowBack, ArrowForward, CatchingPokemonTwoTone } from "@mui/icons-material"
 
 
 
 
 function PokeInfoPage() {
   const { id } = useParams()
+  
 
-  const pokemonID = id
-  const nextPokemon = id+1
+  const pokemonID = parseInt(id)
+  const nextPokemonID = pokemonID + 1
+  const prevPokemonID = pokemonID - 1
+
+  
+
 
   
   const URL = `https://pokeapi.co/api/v2/pokemon/${pokemonID}/`
@@ -25,13 +30,39 @@ function PokeInfoPage() {
 
   const [ pokedexEntry, setPokedexEntry ] = useState([])
   const [ pokeDexEntryLoading, setDexEntryLoading] = useState(true)
-
-  //next pokemon state
-  // const [nextPokemon, setNextPokemon] = useState(pokemonID++)
-
-  // //previous pokemon state
-  // const [prevPokemon, setPrevPokemon] = useState(pokedexURL-1)
+// set the title of the page
+document.title = `PokeSearch! -  ${pokeObject.name}` 
   
+  const nextURL = `https://pokeapi.co/api/v2/pokemon/${nextPokemonID}/`
+  const prevURL = `https://pokeapi.co/api/v2/pokemon/${prevPokemonID}/`
+ const [ nextPokemon, setNextPokemon] = useState([])
+ const [ prevPokemon, setPrevPokemon] = useState([])
+ const [ nextPokemonLoading, setNextPokemonLoading ] = useState(true)
+ const [ prevPokemonLoading, setPrevPokemonLoading ] = useState(true)
+
+  useEffect(() => {
+    fetch(nextURL)
+    .then(res => res.json())
+    .then(data => {
+      setNextPokemon(data)
+      setNextPokemonLoading(false)
+      
+    })
+      
+  }, [nextURL])
+
+  useEffect(() => {
+    fetch(prevURL)
+    .then(res => res.json())
+    .then(data => {
+      setPrevPokemon(data)
+      setPrevPokemonLoading(false)
+    })
+      
+  }, [prevURL])
+
+
+
 
   useEffect(() => {
     fetch(URL)
@@ -53,10 +84,10 @@ function PokeInfoPage() {
     })
   }, [pokedexURL])
 
-    console.log(pokeObject)
+
 
   // set check to render loading screen if either api call hasn't loaded eyt
-  if (pokeObjectLoading ||  pokeDexEntryLoading) {
+  if (pokeObjectLoading ||  pokeDexEntryLoading || nextPokemonLoading || prevPokemonLoading) {
     return <Container style={{paddingTop: "10%", textAlign: "center"}}>
     <CatchingPokemonTwoTone style={{fontSize: "48px"}} className={"ball"} />
     <h3>Loading...</h3>
@@ -88,7 +119,7 @@ function PokeInfoPage() {
     
 
 {pokeObject.types.map((type, index) => (
-  <Image style={{paddingLeft: "10px"}} key={index} src={require(`../images/images-SwSh/${type.type.name}_icon_SwSh.png`)} />
+  <Image style={{paddingLeft: "10px", width: "50px"}} key={index} src={require(`../images/images-SwSh/${type.type.name}_icon_SwSh.png`)} />
 ))}
 
   </div>
@@ -108,19 +139,25 @@ function PokeInfoPage() {
       <p><strong>Dream World Form: </strong>
 
       {pokeObject.sprites.other.dream_world.front_default ?
-        <Image style={{width: "170px", padding: "40px"}} src={`${pokeObject.sprites.other.dream_world.front_default}`} />
+        <Image style={{width: "190px", padding: "40px"}} src={`${pokeObject.sprites.other.dream_world.front_default}`} />
         :
         <p>Sorry, that image doesn't exist</p>}</p>
     </Container>
     
-        <Link to={`/${nextPokemon}`}>
-        {/* <Image src={`${pokeObject.sprites.other["official-artwork"].front_default}`} /> */}
-        next
+      <Container style={{display: "flex", justifyContent: "space-around", height: "110px", width: "90px", marginTop: "100px", alignItems: "center" }}>
+        <Link style={{textDecoration: "none"}} to={`/${prevPokemonID}`}>
+        <Image style={{width: "120px", textDecoration: "none"}} src={`${prevPokemon.sprites.other["official-artwork"].front_default}`} />
+        <h4>{prevPokemon.name} #{prevPokemon.id}</h4>
+        <ArrowBack />
         </Link>
-        {/* <Link to={`/${prevPokemon}`}> */}
-        {/* <Image src={`${pokeObject.sprites.other["official-artwork"].front_default}`} /> */}
-        {/* prev
-        </Link> */}
+        
+        <Link style={{textDecoration: "none", paddingLeft: "100px"}} to={`/${nextPokemonID}`}>
+        <Image style={{width: "120px" }} src={`${nextPokemon.sprites.other["official-artwork"].front_default}`} />
+        <h4>{nextPokemon.name} #{nextPokemon.id}</h4>
+        <ArrowForward />
+        </Link>
+       
+      </Container>
     </Container>
     
     
