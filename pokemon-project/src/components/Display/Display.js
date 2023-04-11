@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 
 import Grid from '@mui/material/Unstable_Grid2';
 import { Button, Container, Link } from "@mui/material";
+import InfiniteScroll from "react-infinite-scroller";
 
 
 import InputLabel from '@mui/material/InputLabel';
@@ -19,74 +20,70 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Image from "mui-image";
 
 
+
+
 function Display() {
 
-  const [displayList, setDisplayList] = useState([]);
-  const [pokemonList, setPokemonList] = useState([]);
+  
   const [hero, setHero] = useState(null);
-  // const [heroURL, setHeroURL] = useState();
-
-  const [currentPage, setCurrentPage] = useState(1)
 
 
-
-
-  // two useEffect hooks used to render the initial 20 pokemon on page load (checking if page is the first page or not)  and if not loading the next 20.
-  useEffect(() => {
-    if (currentPage === 1) {
-      const URL = `https://pokeapi.co/api/v2/pokemon?limit=20&offset=0`;
-      fetch(URL)
-        .then((res) => res.json())
-        .then((data) => {
-          setDisplayList(data.results);
-          
-          const pokemonList = data.results.map((data, index) => ({
-            name: data.name,
-            id: index + 1,
-            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png`,
-            // image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index + 1}.svg`,
-            
-          }));
-          setPokemonList(pokemonList);
-        });
-    } else {
-      const URL = `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${(currentPage-1)*20}`;
-      fetch(URL)
-        .then((res) => res.json())
-        .then((data) => {
-          setDisplayList(data.results);
-          const pokemonList = data.results.map((data, index) => ({
-            name: data.name,
-            id: index + 1 + ((currentPage - 1) * 20),
-            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1 + ((currentPage - 1) * 20)}.png`,
-            // image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${index + 1 + ((currentPage - 1) * 20)}.svg`,
-            
-          }));
-          setPokemonList(prevState => [...prevState, ...pokemonList]);
-        });
-    }
-  }, [currentPage]);
+  // ----------------------------------------------- refactor list -------------------------
   
-//function that listens for scroll event and checked is user has scrolled to bottom of the page, if they have the state of currentPage is updated to +1 and 20 more pokemon are loaded
-  function handleScroll() {
-    const { scrollTop, clientHeight, scrollHeight } =  document.documentElement;
-      if ( scrollTop + clientHeight >= scrollHeight - 5) {
-        setCurrentPage(prevState => prevState + 1)
-      }
+//   
+//------
+const [newDisplayList, setNewDisplayList] = useState([]);
+
+const [displayState, setDisplayState] = useState("number");
+const [page, setPage] = useState(1);
+const [results, setResults] = useState([]);
+const [loading, setLoading] = useState(false);
+
+useEffect(() => {
+  const URL = "https://pokeapi.co/api/v2/pokemon?limit=1000";
+  fetch(URL)
+    .then((res) => res.json())
+    .then((data) => {
+      
+      
+        const pokemonList = data.results.map((data, index) => ({
+          name: data.name,
+          id: index + 1,
+          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png`,
+        }));
+
+        setNewDisplayList(pokemonList);
+      
+    });
+}, []);
+
+const handleNumSort = () => {
+  if (displayState === "alphabet") {
+    
+    //sets the state back to original URL, and maps original data
+      
+      const URL = `https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0`;
+      fetch(URL)
+      .then((res) => res.json())
+      .then((data) => {
+        setNewDisplayList(data.results);
+        const pokemonList = data.results.map((data, index) => ({
+          name: data.name,
+          id: index + 1,
+          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png`,
+        }));
+        setNewDisplayList(pokemonList);
+        setResults([])
+        setPage(0)
+      });
+    
+    
   }
-  console.log(pokemonList)
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+};
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+  //-------------------------------------------------------end refactor -------------------
 
-
-  
-
-  // sets hero image, not being used 
+  // sets hero image
   const handleRandom = () => {
     let randomNum = Math.floor(Math.random() * 1000) + 1;
     let heroURL = `https://pokeapi.co/api/v2/pokemon/${randomNum}`
@@ -100,7 +97,7 @@ function Display() {
     
 
   const sortAlpha = () => {
-    let pokemonIndexList = [...displayList].map((pokemon, index) => {
+    let pokemonIndexList = newDisplayList.map((pokemon, index) => {
       return {
         ...pokemon,
         index: index + 1
@@ -120,76 +117,35 @@ function Display() {
       name: data.name,
       id: data.index,
       image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.index}.png`
-      // image: `https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${data.index}.svg`
-      // image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data.index}.png`
+      
     }));
-
-    setPokemonList(sortedResult);
+   
+    setNewDisplayList(sortedResult);
+     setDisplayState("alphabet")
+     setResults([])
+     setPage(0)
+     console.log("alpha")
   };
 
-  const sortByNumber = () => {
-    //sets the state back to original URL, and maps original data
-      // const URL = `http://pokeapi.co/api/v2/pokemon/?limit=905`;
-      const URL = `https://pokeapi.co/api/v2/pokemon?limit=20&offset=0`;
-      fetch(URL)
-      .then((res) => res.json())
-      .then((data) => {
-        setDisplayList(data.results);
-        const pokemonList = data.results.map((data, index) => ({
-          name: data.name,
-          id: index + 1,
-          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png`,
-        }));
-        setPokemonList(pokemonList);
-      });
-    
-    }
-
-
-    // sets the hero image and information, currently unused 
-  // const chooseHero = (name, id) => { 
-  //   setHeroURL(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-    
-  // };
-
-  /// sort by dropdown --- endpoint below
-  // `https://pokeapi.co/api/v2/generation/{id or name}/`
-  //------------------------
-
   
-// const [generation, setGeneration] = useState('');
-//   const handleChange = (event) => {
-//     setGeneration(event.target.value)
-//   }
-//     const URL = `https://pokeapi.co/api/v2/generation/${generation}/`;
 
-//     useEffect(() => {
-//       fetch(URL)
-//       .then((res) => res.json())
-//       .then((data) => {
-//         setDisplayList(data);
-//       });
 
-//     })
-    
-    
-  
-//------------------
-// ----------- window scroll -=--------------------
 
-// window.onscroll = () => {
+const loadFunc = () => {
+  if (loading) return; // return early if a request is already in progress
+  setLoading(true); // set loading state to true
+  const newResults = newDisplayList.slice((page - 1) * 20, page * 20);
+  setResults([...results, ...newResults]);
+  setPage(page + 1);
+  setLoading(false); // set loading state to false after the request is complete
+};
 
-//   if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-
-//   }
-// }
-
-//-------------------end window scroll-------------------------------
 
   return (
     <>
-    {/* Sets hero image */}
+    
      
+    
       <div style={{ height: "400px" }}>
         {hero === null ? (
           <Container style={{paddingTop: "10%", textAlign: "center"}}>
@@ -214,29 +170,26 @@ function Display() {
         <Button onClick={sortAlpha}>Sort alphabetically</Button>
       
       
-        <Button onClick={sortByNumber}>Sort numerically</Button>
+        <Button onClick={handleNumSort}>Sort numerically</Button>
         <Button onClick={handleRandom}>Random Pokemon</Button>
       </Container>
 
 
-      {/* <FormControl style={{width: "100px"}}>
-  <InputLabel id="demo-simple-select-label">Age</InputLabel>
-  <Select
-    labelId="demo-simple-select-label"
-    id="demo-simple-select"
-    value={generation}
-    label="Age"
-    onChange={handleChange}
-  >
-    <MenuItem value={1}>generation 1</MenuItem>
-    <MenuItem value={2}>generation 2</MenuItem>
-    <MenuItem value={3}>generation 3</MenuItem>
-  </Select>
-</FormControl> */}
+
 
       <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+
+<InfiniteScroll
+    pageStart={0}
+
+    loadMore={loadFunc}
+    hasMore={results.length < newDisplayList.length}
+    loader={<div className="loader" key={0}>Loading ...</div>}
+>
+
         <Grid container style={{display: "flex", textAlign: "center", justifyContent: "center"}} spacing={{ xs: 4, md: 6 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-          {pokemonList.map((pokemon, index) => {
+
+          {results.map((pokemon, index) => {
             return (
               <Grid key={index}>
                 <CardDisplay
@@ -247,9 +200,11 @@ function Display() {
                   index={pokemon.index}
                 />
               </Grid>
+              
             )
           })}
         </Grid>
+        </InfiniteScroll>
       </Box>
     </>
   )
