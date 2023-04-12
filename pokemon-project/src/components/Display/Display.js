@@ -1,7 +1,7 @@
 import CardDisplay from "../Card/Card";
 import Hero from "../Hero/Hero";
 import PokeInfoPage from "../PokeInfoPage/PokeInfoPage.";
-import { useEffect, useState } from "react"
+import { useEffect, useInsertionEffect, useState } from "react"
 import "./display.css"
 
 import { CatchingPokemonTwoTone } from "@mui/icons-material";
@@ -28,7 +28,28 @@ function Display() {
   const [hero, setHero] = useState(null);
 
 
-  // ----------------------------------------------- refactor list -------------------------
+  // ----------------------------------------------- refactor list 
+
+//   const getFireTypes = () => {
+//     let typeURL = `https://pokeapi.co/api/v2/type/fire/`
+//     fetch(typeURL)
+//     .then(res => res.json())
+//     .then(data => {
+
+//       const pokemonList = data.pokemon.map((data, index) => ({
+//         name: data.name,
+//         // id: index + 1,
+//         image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.name}.png`,
+//       }));
+
+//       setNewDisplayList(pokemonList);
+    
+//   });
+// };
+   
+  
+  
+  //-------------------------
   
 //   
 //------
@@ -45,7 +66,7 @@ useEffect(() => {
     .then((res) => res.json())
     .then((data) => {
       
-      
+      console.log(data.results[0])
         const pokemonList = data.results.map((data, index) => ({
           name: data.name,
           id: index + 1,
@@ -139,10 +160,49 @@ const loadFunc = () => {
   setPage(page + 1);
   setLoading(false); // set loading state to false after the request is complete
 };
+//-------------------------------types----------------------
+const [type, setType] = useState(null)
 
 
+const getTypes = (e) => {
+  setType(e.target.value);
+  console.log("selected type:", type);
+}
+
+
+useEffect(() => {
+let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
+  fetch(typeURL)
+    .then(res => res.json())
+    .then(data => {
+      const fireTypeList = data.pokemon.map(pokemonData => pokemonData.pokemon.name);
+
+      const filteredPokemonList = newDisplayList.filter(pokemon => fireTypeList.includes(pokemon.name));
+
+      console.log(filteredPokemonList);
+      setResults(filteredPokemonList);
+    });
+})
+
+
+
+
+  const pokemonTypes = ["normal", "fire", "water", "grass", "flying", "fighting", "poison", "electric", "ground", "rock", "psychic", "ice", "bug", 
+  "ghost", "steel", "dragon", "dark", "fairy"]
+
+ 
+//------------------------------end types-------------------------------
   return (
     <>
+
+
+    {pokemonTypes.map(pokeType => {
+     return <Button value={pokeType} onClick={getTypes}>
+    <Image style={{width: "50px"}} src={require(`../images/images-SwSh/${pokeType}_icon_SwSh.png`)} />
+    </Button>
+    
+})}
+     
     
       <div style={{ height: "400px" }}>
         {hero === null ? (
