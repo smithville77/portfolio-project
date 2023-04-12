@@ -144,8 +144,6 @@ const loadFunc = () => {
   return (
     <>
     
-     
-    
       <div style={{ height: "400px" }}>
         {hero === null ? (
           <Container style={{paddingTop: "10%", textAlign: "center"}}>
