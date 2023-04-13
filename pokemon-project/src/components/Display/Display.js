@@ -48,6 +48,16 @@ useEffect(() => {
     });
 }, []);
 
+
+// sets state variables back to beginning and calls original list to be displayed
+const resetList = () => {
+  setDisplayState("alphabet")
+  setType(null)
+  handleNumSort()
+}
+
+
+
 const handleNumSort = () => {
   if (displayState === "alphabet") {
     
@@ -127,8 +137,8 @@ const loadFunc = () => {
   if (displayState === "number" || displayState === "alphabet") {
    const newResults = newDisplayList.slice((page - 1) * 20, page * 20); 
     setResults([...results, ...newResults]);
-  setPage(page + 1);
-  setLoading(false); // set loading state to false after the request is complete
+    setPage(page + 1);
+    setLoading(false); // set loading state to false after the request is complete
   } else if (displayState !== "number" || displayState !== "alphabet" ) {
     // const newResults = newDisplayList
     // setResults([...newResults]);
@@ -146,14 +156,16 @@ let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
   fetch(typeURL)
     .then(res => res.json())
     .then(data => {
-      const fireTypeList = data.pokemon.map(pokemonData => pokemonData.pokemon.name);
+      const typeList = data.pokemon.map(pokemonData => pokemonData.pokemon.name);
 
-      const filteredPokemonList = newDisplayList.filter(pokemon => fireTypeList.includes(pokemon.name));
+      const filteredPokemonList = newDisplayList.filter(pokemon => typeList.includes(pokemon.name));
 
       console.log(filteredPokemonList);
       setDisplayState(type)
       setResults(filteredPokemonList);
     });
+    setResults([])
+    setPage(0)
 }, [newDisplayList, type])
 
 
@@ -188,7 +200,9 @@ let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
         </Button>
         
     })}
-<Button onClick={() => setResults(newDisplayList)}>All</Button>
+
+{/* <Button onClick={() => setResults(newDisplayList)}>All</Button> */}
+<Button onClick={() => resetList()}>All</Button>
 </Container>
 
 {/* Buttons to sort the display results by number, alphabetically and has the option to change the hero image to a random pokemon */}
@@ -209,7 +223,7 @@ let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
 
             loadMore={loadFunc}
             hasMore={results.length < newDisplayList.length}
-            loader={<div className="loader" key={0}>Loading ...</div>}
+            loader={displayState === "number" || displayState === "alphabet" ? <div className="loader" key={0}>Loading ...</div> : <p style={{textAlign: "center"}}><strong> --- End of results ---</strong></p>}
         >
 
             <Grid container style={{display: "flex", textAlign: "center", justifyContent: "center"}} spacing={{ xs: 4, md: 6 }} columns={{ xs: 4, sm: 8, md: 12 }}>
