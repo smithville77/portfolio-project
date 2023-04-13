@@ -1,39 +1,30 @@
 import CardDisplay from "../Card/Card";
 import Hero from "../Hero/Hero";
 import PokeInfoPage from "../PokeInfoPage/PokeInfoPage.";
-import { useEffect, useState } from "react"
+import { useEffect, useInsertionEffect, useState } from "react"
 import "./display.css"
 
 import { CatchingPokemonTwoTone } from "@mui/icons-material";
 
 import Box from '@mui/material/Box';
-
 import Grid from '@mui/material/Unstable_Grid2';
-import { Button, Container, Link } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroller";
 
 
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Image from "mui-image";
 
 
+const pokemonTypes = ["normal", "fire", "water", "grass", "flying",
+ "fighting", "poison", "electric", "ground", "rock", "psychic", "ice",
+  "bug", "ghost", "steel", "dragon", "dark", "fairy"]
 
 
 function Display() {
 
   
-  const [hero, setHero] = useState(null);
-
-
-  // ----------------------------------------------- refactor list -------------------------
-  
-//   
-//------
+const [hero, setHero] = useState(null);
 const [newDisplayList, setNewDisplayList] = useState([]);
-
 const [displayState, setDisplayState] = useState("number");
 const [page, setPage] = useState(1);
 const [results, setResults] = useState([]);
@@ -45,7 +36,7 @@ useEffect(() => {
     .then((res) => res.json())
     .then((data) => {
       
-      
+      console.log(data.results[0])
         const pokemonList = data.results.map((data, index) => ({
           name: data.name,
           id: index + 1,
@@ -81,7 +72,7 @@ const handleNumSort = () => {
   }
 };
 
-  //-------------------------------------------------------end refactor -------------------
+
 
   // sets hero image
   const handleRandom = () => {
@@ -95,7 +86,6 @@ const handleNumSort = () => {
   }
    
     
-
   const sortAlpha = () => {
     let pokemonIndexList = newDisplayList.map((pokemon, index) => {
       return {
@@ -130,7 +120,6 @@ const handleNumSort = () => {
   
 
 
-
 const loadFunc = () => {
   if (loading) return; // return early if a request is already in progress
   setLoading(true); // set loading state to true
@@ -139,11 +128,37 @@ const loadFunc = () => {
   setPage(page + 1);
   setLoading(false); // set loading state to false after the request is complete
 };
+//-------------------------------types----------------------
+const [type, setType] = useState(null)
 
+
+useEffect(() => {
+let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
+  fetch(typeURL)
+    .then(res => res.json())
+    .then(data => {
+      const fireTypeList = data.pokemon.map(pokemonData => pokemonData.pokemon.name);
+
+      const filteredPokemonList = newDisplayList.filter(pokemon => fireTypeList.includes(pokemon.name));
+
+      console.log(filteredPokemonList);
+      
+      setResults(filteredPokemonList);
+    });
+}, [newDisplayList, type])
+
+
+
+
+  const pokemonTypes = ["normal", "fire", "water", "grass", "flying", "fighting", "poison", "electric", "ground", "rock", "psychic", "ice", "bug", 
+  "ghost", "steel", "dragon", "dark", "fairy"]
+
+ 
 
   return (
     <>
-    
+
+  {/* loading screen or hero image is displayed */}
       <div style={{ height: "400px" }}>
         {hero === null ? (
           <Container style={{paddingTop: "10%", textAlign: "center"}}>
@@ -162,8 +177,19 @@ const loadFunc = () => {
         )}
       </div>
 
-      
+{/* Maps over the types array and returns the symbol of the same name, each type is a button that sets the state of "type" with the value of the button when it's clicked */}
+<Container style={{maxWidth: "700px"}}>
+      <strong style={{ display: "flex", justifyContent: "center"}}>sort by type</strong> <br />
+    {pokemonTypes.map(pokeType => {
+      return <Button value={pokeType} onClick={() =>setType(pokeType)}>
+        <Image style={{width: "50px"}} src={require(`../images/images-SwSh/${pokeType}_icon_SwSh.png`)} />
+        </Button>
+        
+    })}
+<Button onClick={() => setResults(newDisplayList)}>All</Button>
+</Container>
 
+{/* Buttons to sort the display results by number, alphabetically and has the option to change the hero image to a random pokemon */}
       <Container style={{display: "flex", justifyContent: "space-evenly", marginBottom: "50px"}}>
         <Button onClick={sortAlpha}>Sort alphabetically</Button>
       
@@ -173,35 +199,33 @@ const loadFunc = () => {
       </Container>
 
 
-
-
+{/* contains the grid displaying the current state of the results state */}
       <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
 
-<InfiniteScroll
-    pageStart={0}
+        <InfiniteScroll
+            pageStart={0}
 
-    loadMore={loadFunc}
-    hasMore={results.length < newDisplayList.length}
-    loader={<div className="loader" key={0}>Loading ...</div>}
->
+            loadMore={loadFunc}
+            hasMore={results.length < newDisplayList.length}
+            loader={<div className="loader" key={0}>Loading ...</div>}
+        >
 
-        <Grid container style={{display: "flex", textAlign: "center", justifyContent: "center"}} spacing={{ xs: 4, md: 6 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+            <Grid container style={{display: "flex", textAlign: "center", justifyContent: "center"}} spacing={{ xs: 4, md: 6 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 
-          {results.map((pokemon, index) => {
-            return (
-              <Grid key={index}>
-                <CardDisplay
-                  // chooseHero={(name) => chooseHero(name, pokemon.id)}
-                  id={pokemon.id}
-                  name={pokemon.name}
-                  image={pokemon.image}
-                  index={pokemon.index}
-                />
-              </Grid>
-              
-            )
-          })}
-        </Grid>
+              {results.map((pokemon, index) => {
+                return (
+                  <Grid key={index}>
+                    <CardDisplay
+                      // chooseHero={(name) => chooseHero(name, pokemon.id)}
+                      id={pokemon.id}
+                      name={pokemon.name}
+                      image={pokemon.image}
+                      index={pokemon.index}
+                    />
+                  </Grid>
+                )
+              })}
+            </Grid>
         </InfiniteScroll>
       </Box>
     </>
