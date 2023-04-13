@@ -123,10 +123,19 @@ const handleNumSort = () => {
 const loadFunc = () => {
   if (loading) return; // return early if a request is already in progress
   setLoading(true); // set loading state to true
-  const newResults = newDisplayList.slice((page - 1) * 20, page * 20);
-  setResults([...results, ...newResults]);
+  
+  if (displayState === "number" || displayState === "alphabet") {
+   const newResults = newDisplayList.slice((page - 1) * 20, page * 20); 
+    setResults([...results, ...newResults]);
   setPage(page + 1);
   setLoading(false); // set loading state to false after the request is complete
+  } else if (displayState !== "number" || displayState !== "alphabet" ) {
+    // const newResults = newDisplayList
+    // setResults([...newResults]);
+    // stop page loading if set to "type" list
+    setLoading(false)
+  }
+  
 };
 //-------------------------------types----------------------
 const [type, setType] = useState(null)
@@ -142,18 +151,11 @@ let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
       const filteredPokemonList = newDisplayList.filter(pokemon => fireTypeList.includes(pokemon.name));
 
       console.log(filteredPokemonList);
-      
+      setDisplayState(type)
       setResults(filteredPokemonList);
     });
 }, [newDisplayList, type])
 
-
-
-
-  const pokemonTypes = ["normal", "fire", "water", "grass", "flying", "fighting", "poison", "electric", "ground", "rock", "psychic", "ice", "bug", 
-  "ghost", "steel", "dragon", "dark", "fairy"]
-
- 
 
   return (
     <>
