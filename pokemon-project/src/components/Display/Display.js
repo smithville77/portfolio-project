@@ -8,8 +8,9 @@ import { CatchingPokemonTwoTone } from "@mui/icons-material";
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
-import { Button, Container } from "@mui/material";
+import { Button, Container, TextField, Autocomplete } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroller";
+
 
 
 import Image from "mui-image";
@@ -53,6 +54,7 @@ useEffect(() => {
 const resetList = () => {
   setDisplayState("alphabet")
   setType(null)
+  // setChangeVal("")
   handleNumSort()
 }
 
@@ -94,6 +96,7 @@ const handleNumSort = () => {
       console.log(data)})
   
   }
+  
    
     
   const sortAlpha = () => {
@@ -160,7 +163,7 @@ let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
 
       const filteredPokemonList = newDisplayList.filter(pokemon => typeList.includes(pokemon.name));
 
-      console.log(filteredPokemonList);
+      
       setDisplayState(type)
       setResults(filteredPokemonList);
     });
@@ -169,11 +172,105 @@ let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
 }, [newDisplayList, type])
 
 
+
+// const [changeVal, setChangeVal] = useState("");
+// const [dropdownName, setDropdownName] = useState("")
+
+
+// const filter = (e) => {
+//   const inputVal = e.target.value;
+//   setChangeVal(inputVal);
+//   const filteredPokemon = newDisplayList.filter(pokemon => pokemon.name.toLowerCase().includes(inputVal.toLowerCase()));
+  
+//   setResults(filteredPokemon);
+// };
+
+const chooseHero = (heroName) => {
+  
+  let heroURL = `https://pokeapi.co/api/v2/pokemon/${heroName}`
+  fetch(heroURL)
+    .then((res) => res.json())
+    .then((data) => {setHero(data);
+    console.log(data)})
+
+}
+
+const [ displayWelcome, setDisplayWelcome ] = useState(true)
+
+
   return (
     <>
+{hero === null ? 
+
+(
+    <Container style={{display: "flex", alignItems: "center", flexDirection: "column", height: "400px", paddingTop: "100px"}}>
+      <h1>Welcome To This Page!</h1>
+      <Autocomplete
+        style={{width: "300px", justifyContent: "center", }}
+        freeSolo
+        id="free-solo-2-demo"
+        disableClearable
+        onChange={(e, value) => chooseHero(value)}
+        options={newDisplayList.map((pokemon) => pokemon.name)}
+        
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Search input"
+            InputProps={{
+              ...params.InputProps,
+              type: 'search',
+            }}
+          />
+        )}
+        
+      />
+      <p style={{width: "30vw"}}>Search, find and get more information about your favorite pokemon! Over 1000 pokedex entries! sort by type and blah blah blah more information. 
+      </p>
+      </Container>
+) : ( <Container style={{display: "flex", height: "600px", width: "50vw"}}>
+      <Container style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
+      <h1>Welcome To This Page!</h1>
+      <Autocomplete
+        style={{width: "300px", justifyContent: "center"}}
+        freeSolo
+        id="free-solo-2-demo"
+        disableClearable
+        onChange={(e, value) => chooseHero(value)}
+        options={newDisplayList.map((pokemon) => pokemon.name)}
+        
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Search input"
+            InputProps={{
+              ...params.InputProps,
+              type: 'search',
+            }}
+          />
+        )}
+      />
+      </Container>
+      <Container style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+              <Hero 
+                image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${hero.id}.png`}
+                name={hero.species.name}
+                types={hero.types}
+                id={hero.id}
+              />
+      </Container>
+          
+    </Container>
+  )
+      }
+      
+
+
 
   {/* loading screen or hero image is displayed */}
-      <div style={{ height: "400px" }}>
+       
+
+      {/* <div style={{ height: "400px" }}>
         {hero === null ? (
           <Container style={{paddingTop: "10%", textAlign: "center"}}>
             <CatchingPokemonTwoTone style={{fontSize: "48px"}} className={"ball"} />
@@ -189,11 +286,11 @@ let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
             id={hero.id}
           />
         )}
-      </div>
+      </div> */}
 
 {/* Maps over the types array and returns the symbol of the same name, each type is a button that sets the state of "type" with the value of the button when it's clicked */}
 <Container style={{maxWidth: "700px"}}>
-      <strong style={{ display: "flex", justifyContent: "center"}}>sort by type</strong> <br />
+      <strong style={{ display: "flex", justifyContent: "center"}}>Sort by your favorite Pokemon type!</strong> <br />
     {pokemonTypes.map(pokeType => {
       return <Button value={pokeType} onClick={() =>setType(pokeType)}>
         <Image style={{width: "50px"}} src={require(`../images/images-SwSh/${pokeType}_icon_SwSh.png`)} />
@@ -202,17 +299,21 @@ let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
     })}
 
 {/* <Button onClick={() => setResults(newDisplayList)}>All</Button> */}
-<Button onClick={() => resetList()}>All</Button>
+
+
 </Container>
 
 {/* Buttons to sort the display results by number, alphabetically and has the option to change the hero image to a random pokemon */}
       <Container style={{display: "flex", justifyContent: "space-evenly", marginBottom: "50px"}}>
+        <Button  onClick={() => resetList()}>All</Button>
         <Button onClick={sortAlpha}>Sort alphabetically</Button>
       
       
         <Button onClick={handleNumSort}>Sort numerically</Button>
         <Button onClick={handleRandom}>Random Pokemon</Button>
       </Container>
+
+      
 
 
 {/* contains the grid displaying the current state of the results state */}
@@ -237,6 +338,7 @@ let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
                       name={pokemon.name}
                       image={pokemon.image}
                       index={pokemon.index}
+                     
                     />
                   </Grid>
                 )
