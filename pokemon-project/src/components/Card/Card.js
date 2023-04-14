@@ -5,44 +5,78 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 
 
 function CardDisplay(props) {
-const { name, image, id, chooseHero, index } = props
+const { name, image, id } = props
+
+const backgroundColors = {
+  normal: '#A8A878',
+  fire: '#F08030',
+  water: '#6890F0',
+  electric: '#F8D030',
+  grass: '#78C850',
+  ice: '#98D8D8',
+  fighting: '#C03028',
+  poison: '#A040A0',
+  ground: '#E0C068',
+  flying: '#A890F0',
+  psychic: '#F85888',
+  bug: '#A8B820',
+  rock: '#B8A038',
+  ghost: '#705898',
+  dragon: '#7038F8',
+  dark: '#705848',
+  steel: '#B8B8D0',
+  fairy: '#EE99AC',
+}
+
+const defaultBG = "white"
 
 
-      
-  // function handleClick(name) {
-  //   chooseHero(name)
-  // }
+const [type, setType] = useState(defaultBG)
+
+const titleCaseName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+
+useEffect(() => {
+  fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+  .then(res => res.json())
+  .then(data => {
+    setType(data.types[0].type.name)
+  })
+})
+const backgroundColor = backgroundColors[type]
 
   return (
     <Link to={`/${id}`} style={{ textDecoration: "none"}}>
+
       <Card sx={{ width: 200, height: 250 }}>
-        <CardActionArea>
+        <CardActionArea style={{backgroundColor: backgroundColor}}>
+          <Typography style={{position: "absolute", top: "0", right: "2px", fontSize: "40px", zIndex: "1", opacity: "0.7" }} variant="body2" color="text.secondary">
+              {`#${id} `}  
+              
+            </Typography>
           <CardMedia
             value={name}
-            // onClick={() => handleClick(name, id)}
-
+          
             component="img"
             sx={{height: 170, maxWidth: 150, margin: "auto"}}
             image={`${image}`}
             alt={name}
           />
           
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {`#${id} `}  
-              {name}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {/* info about {name} */}
+          <CardContent style={{position: "relative"}}>
+            <Typography  gutterBottom variant="h5" component="div">
               
+              {titleCaseName}
             </Typography>
+            <p>Type: {type}</p>
           </CardContent>
         </CardActionArea>
       </Card>
+      
     </Link>
 )
 }

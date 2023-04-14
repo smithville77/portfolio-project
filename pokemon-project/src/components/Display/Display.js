@@ -32,19 +32,22 @@ const [results, setResults] = useState([]);
 const [loading, setLoading] = useState(false);
 
 useEffect(() => {
-  const URL = "https://pokeapi.co/api/v2/pokemon?limit=1000";
+  const URL = "https://pokeapi.co/api/v2/pokemon?limit=906";
   fetch(URL)
     .then((res) => res.json())
     .then((data) => {
       
-      console.log(data.results[0])
+      
         const pokemonList = data.results.map((data, index) => ({
           name: data.name,
           id: index + 1,
+          type: data.types.length ? data.types[0].type.name : "unknown",
+
           image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png`,
         }));
-
+        console.log(pokemonList[0])
         setNewDisplayList(pokemonList);
+        setResults(pokemonList)
       
     });
 }, []);
@@ -61,11 +64,13 @@ const resetList = () => {
 
 
 const handleNumSort = () => {
-  if (displayState === "alphabet") {
+
+  // making this change brought back functionality when changing between type ? num & alpha sort
+  // if (displayState === "alphabet") {
     
     //sets the state back to original URL, and maps original data
       
-      const URL = `https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0`;
+      const URL = `https://pokeapi.co/api/v2/pokemon?limit=906&offset=0`;
       fetch(URL)
       .then((res) => res.json())
       .then((data) => {
@@ -76,12 +81,14 @@ const handleNumSort = () => {
           image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png`,
         }));
         setNewDisplayList(pokemonList);
+        setDisplayState("number")
+        console.log("num")
         setResults([])
         setPage(0)
       });
     
-    
-  }
+    // }
+  
 };
 
 
@@ -173,18 +180,6 @@ let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
 
 
 
-// const [changeVal, setChangeVal] = useState("");
-// const [dropdownName, setDropdownName] = useState("")
-
-
-// const filter = (e) => {
-//   const inputVal = e.target.value;
-//   setChangeVal(inputVal);
-//   const filteredPokemon = newDisplayList.filter(pokemon => pokemon.name.toLowerCase().includes(inputVal.toLowerCase()));
-  
-//   setResults(filteredPokemon);
-// };
-
 const chooseHero = (heroName) => {
   
   let heroURL = `https://pokeapi.co/api/v2/pokemon/${heroName}`
@@ -195,7 +190,7 @@ const chooseHero = (heroName) => {
 
 }
 
-const [ displayWelcome, setDisplayWelcome ] = useState(true)
+
 
 
   return (
@@ -203,8 +198,11 @@ const [ displayWelcome, setDisplayWelcome ] = useState(true)
 {hero === null ? 
 
 (
-    <Container style={{display: "flex", alignItems: "center", flexDirection: "column", height: "400px", paddingTop: "100px"}}>
-      <h1>Welcome To This Page!</h1>
+    <Container style={{display: "flex", alignItems: "center", flexDirection: "column", paddingTop: "50px", marginBottom: "100px"}}>
+      <h1 style={{fontFamily: 'Pokemon Solid', margin: "0"}}>PokeSearch!</h1>
+      <h2 style={{ marginTop: "0px"}}>Welcome To This Page!</h2>
+      {/* <p style={{width: "50vw"}}>Search, find and get more information about your favorite pokemon! Over 1000 pokedex entries! sort by type and blah blah blah more information. 
+      </p> */}
       <Autocomplete
         style={{width: "300px", justifyContent: "center", }}
         freeSolo
@@ -216,7 +214,8 @@ const [ displayWelcome, setDisplayWelcome ] = useState(true)
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Search input"
+            label="Search"
+            placeholder="Pikachu"
             InputProps={{
               ...params.InputProps,
               type: 'search',
@@ -225,12 +224,11 @@ const [ displayWelcome, setDisplayWelcome ] = useState(true)
         )}
         
       />
-      <p style={{width: "30vw"}}>Search, find and get more information about your favorite pokemon! Over 1000 pokedex entries! sort by type and blah blah blah more information. 
-      </p>
+      
       </Container>
 ) : ( <Container style={{display: "flex", height: "600px", width: "50vw"}}>
       <Container style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
-      <h1>Welcome To This Page!</h1>
+      <h2 style={{fontFamily: 'Pokemon Solid', fontSize: "36px"}}>PokeSearch!</h2>
       <Autocomplete
         style={{width: "300px", justifyContent: "center"}}
         freeSolo
@@ -289,8 +287,8 @@ const [ displayWelcome, setDisplayWelcome ] = useState(true)
       </div> */}
 
 {/* Maps over the types array and returns the symbol of the same name, each type is a button that sets the state of "type" with the value of the button when it's clicked */}
-<Container style={{maxWidth: "700px"}}>
-      <strong style={{ display: "flex", justifyContent: "center"}}>Sort by your favorite Pokemon type!</strong> <br />
+<Container style={{maxWidth: "700px", marginBottom: "50px"}}>
+      <strong style={{ display: "flex", justifyContent: "center", textDecoration: "underline", fontSize: "18px"}}>Sort by your favorite Pokemon type!</strong> <br />
     {pokemonTypes.map(pokeType => {
       return <Button value={pokeType} onClick={() =>setType(pokeType)}>
         <Image style={{width: "50px"}} src={require(`../images/images-SwSh/${pokeType}_icon_SwSh.png`)} />
@@ -305,7 +303,7 @@ const [ displayWelcome, setDisplayWelcome ] = useState(true)
 
 {/* Buttons to sort the display results by number, alphabetically and has the option to change the hero image to a random pokemon */}
       <Container style={{display: "flex", justifyContent: "space-evenly", marginBottom: "50px"}}>
-        <Button  onClick={() => resetList()}>All</Button>
+        <Button onClick={() => resetList()}>All</Button>
         <Button onClick={sortAlpha}>Sort alphabetically</Button>
       
       
@@ -338,6 +336,8 @@ const [ displayWelcome, setDisplayWelcome ] = useState(true)
                       name={pokemon.name}
                       image={pokemon.image}
                       index={pokemon.index}
+                      
+                      
                      
                     />
                   </Grid>

@@ -9,7 +9,29 @@ import { Link } from "react-router-dom"
 import { ArrowBack, ArrowForward, CatchingPokemonTwoTone } from "@mui/icons-material"
 
 
+const backgroundColors = {
+  normal: '#A8A878',
+  fire: '#F08030',
+  water: '#6890F0',
+  electric: '#F8D030',
+  grass: '#78C850',
+  ice: '#98D8D8',
+  fighting: '#C03028',
+  poison: '#A040A0',
+  ground: '#E0C068',
+  flying: '#A890F0',
+  psychic: '#F85888',
+  bug: '#A8B820',
+  rock: '#B8A038',
+  ghost: '#705898',
+  dragon: '#7038F8',
+  dark: '#705848',
+  steel: '#B8B8D0',
+  fairy: '#EE99AC',
+}
 
+const defaultBG = "white"
+ 
 
 function PokeInfoPage() {
   const { id } = useParams()
@@ -20,6 +42,7 @@ function PokeInfoPage() {
   const prevPokemonID = pokemonID - 1
 
   
+
 
 
   
@@ -39,6 +62,8 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
  const [ prevPokemon, setPrevPokemon] = useState([])
  const [ nextPokemonLoading, setNextPokemonLoading ] = useState(true)
  const [ prevPokemonLoading, setPrevPokemonLoading ] = useState(true)
+
+ 
 
   useEffect(() => {
     fetch(nextURL)
@@ -68,6 +93,7 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
     fetch(URL)
     .then(res => res.json())
     .then(data => {
+      console.log(data)
       setPokeObject(data)
       setPokeObjectLoading(false)
       
@@ -94,9 +120,9 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
     
   </Container>
   }
-
+  const backgroundColor = backgroundColors[pokeObject.types[0].type.name]
   return (
-    <Container style={{textAlign: "center", padding: "30px", marginTop: "10vh"}}>
+    <Container style={{textAlign: "center", padding: "30px", paddingTop: "10vh", backgroundColor: `${backgroundColor}`}}>
     
    
     <Container style={{display: "flex"}}>

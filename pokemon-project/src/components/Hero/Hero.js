@@ -12,10 +12,6 @@ function Hero(props) {
     <Container style={{ textAlign: "center" }}>
       <Image style={{maxHeight: "200px", width: "200px"}} src={`${image}`} />
       <h1>{name}</h1>
-      {/* Types: {types.map((type) => {
-        return <p>{type.type}</p>
-      })}
-       */}
        <Button>Click to see more</Button>
     </Container>
 
