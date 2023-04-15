@@ -36,23 +36,25 @@ const backgroundColors = {
 const defaultBG = "white"
 
 
-const [type, setType] = useState(defaultBG)
+const [type, setType] = useState("")
 
 const titleCaseName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 
-useEffect(() => {
-  fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-  .then(res => res.json())
-  .then(data => {
-    setType(data.types[0].type.name)
-  })
-})
+// useEffect(() => {
+//   fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+//   .then(res => res.json())
+//   .then(data => {
+//     setType(data.types[0].type.name)
+//   })
+// }, [id])
+
 const backgroundColor = backgroundColors[type]
 
   return (
     <Link to={`/${id}`} style={{ textDecoration: "none"}}>
 
       <Card sx={{ width: 200, height: 250 }}>
+        {/* <CardActionArea style={{backgroundColor: backgroundColor}}> */}
         <CardActionArea style={{backgroundColor: backgroundColor}}>
           <Typography style={{position: "absolute", top: "0", right: "2px", fontSize: "40px", zIndex: "1", opacity: "0.7" }} variant="body2" color="text.secondary">
               {`#${id} `}  
@@ -62,7 +64,7 @@ const backgroundColor = backgroundColors[type]
             value={name}
           
             component="img"
-            sx={{height: 170, maxWidth: 150, margin: "auto"}}
+            sx={{height: 180, maxWidth: 170, margin: "auto", marginTop: "15px"}}
             image={`${image}`}
             alt={name}
           />
@@ -72,7 +74,7 @@ const backgroundColor = backgroundColors[type]
               
               {titleCaseName}
             </Typography>
-            <p>Type: {type}</p>
+            
           </CardContent>
         </CardActionArea>
       </Card>

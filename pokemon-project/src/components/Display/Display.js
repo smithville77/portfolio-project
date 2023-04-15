@@ -15,7 +15,7 @@ import InfiniteScroll from "react-infinite-scroller";
 
 import Image from "mui-image";
 
-
+document.title = `PokeSearch!` 
 const pokemonTypes = ["normal", "fire", "water", "grass", "flying",
  "fighting", "poison", "electric", "ground", "rock", "psychic", "ice",
   "bug", "ghost", "steel", "dragon", "dark", "fairy"]
@@ -32,20 +32,18 @@ const [results, setResults] = useState([]);
 const [loading, setLoading] = useState(false);
 
 useEffect(() => {
-  const URL = "https://pokeapi.co/api/v2/pokemon?limit=906";
+  const URL = "https://pokeapi.co/api/v2/pokemon?limit=809";
   fetch(URL)
     .then((res) => res.json())
     .then((data) => {
       
-      
+      console.log(data[0])
         const pokemonList = data.results.map((data, index) => ({
           name: data.name,
           id: index + 1,
-          type: data.types.length ? data.types[0].type.name : "unknown",
-
           image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png`,
         }));
-        console.log(pokemonList[0])
+        
         setNewDisplayList(pokemonList);
         setResults(pokemonList)
       
@@ -199,7 +197,7 @@ const chooseHero = (heroName) => {
 
 (
     <Container style={{display: "flex", alignItems: "center", flexDirection: "column", paddingTop: "50px", marginBottom: "100px"}}>
-      <h1 style={{fontFamily: 'Pokemon Solid', margin: "0"}}>PokeSearch!</h1>
+      <h1 style={{fontFamily: 'Pokemon Solid', margin: "0", fontSize: "48px"}}>PokeSearch!</h1>
       <h2 style={{ marginTop: "0px"}}>Welcome To This Page!</h2>
       {/* <p style={{width: "50vw"}}>Search, find and get more information about your favorite pokemon! Over 1000 pokedex entries! sort by type and blah blah blah more information. 
       </p> */}
@@ -230,7 +228,7 @@ const chooseHero = (heroName) => {
       <Container style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
       <h2 style={{fontFamily: 'Pokemon Solid', fontSize: "36px"}}>PokeSearch!</h2>
       <Autocomplete
-        style={{width: "300px", justifyContent: "center"}}
+        style={{width: "300px", justifyContent: "center", marginBottom: "20px"}}
         freeSolo
         id="free-solo-2-demo"
         disableClearable
@@ -248,7 +246,9 @@ const chooseHero = (heroName) => {
           />
         )}
       />
-      </Container>
+
+      
+      
       <Container style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
               <Hero 
                 image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${hero.id}.png`}
@@ -258,6 +258,7 @@ const chooseHero = (heroName) => {
               />
       </Container>
           
+    </Container>
     </Container>
   )
       }
@@ -325,7 +326,7 @@ const chooseHero = (heroName) => {
             loader={displayState === "number" || displayState === "alphabet" ? <div className="loader" key={0}>Loading ...</div> : <p style={{textAlign: "center"}}><strong> --- End of results ---</strong></p>}
         >
 
-            <Grid container style={{display: "flex", textAlign: "center", justifyContent: "center"}} spacing={{ xs: 4, md: 6 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+            <Grid container style={{display: "flex", textAlign: "center", justifyContent: "center"}} spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 
               {results.map((pokemon, index) => {
                 return (
@@ -336,7 +337,6 @@ const chooseHero = (heroName) => {
                       name={pokemon.name}
                       image={pokemon.image}
                       index={pokemon.index}
-                      
                       
                      
                     />
