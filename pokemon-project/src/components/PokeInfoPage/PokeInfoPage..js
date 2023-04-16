@@ -63,7 +63,8 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
  const [ nextPokemonLoading, setNextPokemonLoading ] = useState(true)
  const [ prevPokemonLoading, setPrevPokemonLoading ] = useState(true)
 
- 
+ // converts name to title case
+//  const titleCaseName = pokeObject.name.charAt(0).toUpperCase() + pokeObject.name.slice(1).toLowerCase();
 
   useEffect(() => {
     fetch(nextURL)
@@ -122,59 +123,110 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
   }
   const backgroundColor = backgroundColors[pokeObject.types[0].type.name]
   return (
-    <Container style={{textAlign: "center", padding: "30px", paddingTop: "10vh", backgroundColor: `${backgroundColor}`}}>
-    
-   
-    <Container style={{display: "flex"}}>
-      <Image style={{width: "400px"}} src={`${pokeObject.sprites.other["official-artwork"].front_default}`} />
-      
-    </Container>
-    <h1 style={{ textAlign: "center"}}>{pokeObject.name}</h1>
-    <p><strong>PokeDex Description: </strong>{pokedexEntry.flavor_text_entries[7].flavor_text}</p>
-    
+    <Container style={{height: "800px", width: "600px", textAlign: "center", marginTop: "100px", padding: 0,  borderRadius: "20px", border: "2px solid"}}>
 
+{/* Top section, experience points, type logo */}
 
-    <Container style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
-  <div style={{ display: "flex", alignItems: "center", marginRight: "20px" }}>
-    <p style={{ margin: 0 }}><strong>Type:</strong></p>
-    {/* {pokeObject.types.map((type, index) => (
-      <p style={{ margin: 0, marginLeft: index === 0 ? "5px" : "10px" }}>{index + 1}<br/>{type.type.name}</p>
-
-      <Image src={`../images/images-SwSh/${type.type.name}_icon_SwSh.png`}/>
-    ))} */}
-    
-
-{pokeObject.types.map((type, index) => (
-  <Image style={{paddingLeft: "10px", width: "50px"}} key={index} src={require(`../images/images-SwSh/${type.type.name}_icon_SwSh.png`)} />
-))}
-
+<Container style={{ display: "flex", height: "40px", alignItems: "center"}}>
+  <div style={{ display: "flex", alignItems: "flex-end" }}>
+    <p style={{ marginRight: "10px", marginBottom: "0" }}>exp:</p>
+    <p style={{ marginBottom: "0" }}>{pokeObject.base_experience}</p>
   </div>
 
-  <div style={{ display: "flex", alignItems: "center" }}>
-    <p style={{ margin: 0 }}><strong>Ability:</strong></p>
-    {pokeObject.abilities.map((ability, index) => (
-      <p style={{ margin: 0, marginLeft: "10px" }}><strong>{index+1}.</strong> {ability.ability.name}</p>
+  <div style={{ marginLeft: "auto", display: "flex", alignItems: "flex-end" }}>
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <p style={{ marginRight: "10px", marginBottom: "0" }}>HP:</p>
+      <p style={{ marginBottom: "0" }}>{pokeObject.stats[0].base_stat}</p>
+    </div>
+    
+    {pokeObject.types.map((type, index) => (
+      <Image 
+        key={index} 
+        style={{ paddingLeft: "10px", height: "20px", width: "20px" }} 
+        src={require(`../images/images-SwSh/${type.type.name}_icon_SwSh.png`)}
+      />
     ))}
   </div>
 </Container>
 
-    
-    <Container style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-      <p><strong>Shiny Form:</strong>
-        <Image style={{width: "180px", padding: "30px"}} src={`${pokeObject.sprites.other["official-artwork"].front_shiny}`} /></p>
-      <p><strong>Dream World Form: </strong>
 
-      {pokeObject.sprites.other.dream_world.front_default ?
-        <Image style={{width: "190px", padding: "40px"}} src={`${pokeObject.sprites.other.dream_world.front_default}`} />
-        :
-        <p>Sorry, that image doesn't exist</p>}</p>
-    </Container>
+
+
+
+
+
     
-      <Container style={{display: "flex", justifyContent: "space-around", height: "110px", width: "90px", marginTop: "100px", alignItems: "center" }}>
+   {/* image section */}
+   <Container style={{display: "flex", height: "200px", background: `linear-gradient(to bottom, ${backgroundColor}, white)`,}}>
+      
+      <Container style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start"}}>
+        <p style={{marginBottom: "0", fontSize: "40px", color: "white", opacity: "0.6"}}><strong>#</strong>{pokeObject.id}</p>
+        <h1 style={{ textAlign: "center", fontSize: "48px"}}>{pokeObject.name}</h1>
+      </Container>
+
+      <Container style={{display: "flex"}}>
+        <Image style={{width: "200px"}} src={`${pokeObject.sprites.other["official-artwork"].front_default}`} />
+        
+      </Container>
+    </Container>
+    {/* height weight and abilities go here */}
+    <Container style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+      <div style={{display: "flex", width: "300px", justifyContent: "space-between", margin: "0"}}>
+        <p><strong>height: </strong>{pokeObject.height}"</p>
+        <p><strong>weight: </strong>{pokeObject.weight} lbs.</p>
+      </div>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <p style={{ margin: 0 }}><strong>Abilities:</strong></p>
+        {pokeObject.abilities.map((ability, index) => (
+          <p style={{ margin: 0, marginLeft: "10px" }}><strong>{index+1}.</strong> {ability.ability.name}</p>
+        ))}
+      </div>
+
+    </Container>
+
+{/* two moves and their type || have the pokedex description*/}
+<div style={{display: "grid", gridTemplateColumns: "auto 1fr"}}>
+  <div style={{display: "flex", justifyContent: "center", alignItems: "center", paddingLeft: "10px"}}>
+    <p style={{margin: 0}}>Moves:</p>
+  </div>
+  <Container style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
+    <div style={{display: "flex", alignItems: "center"}}>
+      <Image style={{paddingRight: "10px", width: "30px", height: "30px"}} src={require(`../images/images-SwSh/${pokeObject.types[0].type.name}_icon_SwSh.png`)} />
+      <p style={{margin: 0, width: "200px"}}>{pokeObject.moves[0].move.name}</p>
+    </div>
+    <div style={{display: "flex", alignItems: "center", paddingTop: "10px"}}>
+      <Image style={{paddingRight: "10px", width: "30px", height: "30px"}} src={require(`../images/images-SwSh/${pokeObject.types[0].type.name}_icon_SwSh.png`)} />
+      <p style={{margin: 0, width: "200px"}}>{pokeObject.moves[10].move.name}</p>
+    </div>
+  </Container>
+</div>
+
+
+
+
+<Container style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+  <p><strong>Shiny Form:</strong>
+    <Image style={{width: "180px", height: "180px", padding: "30px", objectFit: "contain"}} src={`${pokeObject.sprites.other["official-artwork"].front_shiny}`} />
+  </p>
+  <p><strong>Dream World Form:</strong>
+    {pokeObject.sprites.other.dream_world.front_default ?
+      <Image style={{width: "180px", height: "180px", padding: "30px", objectFit: "contain"}} src={`${pokeObject.sprites.other.dream_world.front_default}`} />
+      :
+      <p>Sorry, that image doesn't exist</p>
+    }
+  </p>
+</Container>
+
+
+
+
+    <p style={{padding: "20px"}}><strong>PokeDex Description: </strong>{pokedexEntry.flavor_text_entries[3].flavor_text}</p>
+    
+      <Container style={{display: "flex", justifyContent: "space-around", height: "110px", width: "90px", marginTop: "150px", alignItems: "center" }}>
         <Link style={{textDecoration: "none"}} to={`/${prevPokemonID}`}>
-        <Image style={{width: "120px", textDecoration: "none"}} src={`${prevPokemon.sprites.other["official-artwork"].front_default}`} />
-        <h4>{prevPokemon.name} #{prevPokemon.id}</h4>
-        <ArrowBack />
+          <Image style={{width: "120px", textDecoration: "none"}} src={`${prevPokemon.sprites.other["official-artwork"].front_default}`} />
+          <h4>{prevPokemon.name} #{prevPokemon.id}</h4>
+          <ArrowBack />
         </Link>
         
         <Link style={{textDecoration: "none", paddingLeft: "100px"}} to={`/${nextPokemonID}`}>
@@ -184,8 +236,8 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
         </Link>
        
       </Container>
+      
     </Container>
-    
     
   )
 }

@@ -3,14 +3,14 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import { CardActionArea, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 
 
 function CardDisplay(props) {
-const { name, image, id } = props
+const { name, image, id, clickHero } = props
 
 const backgroundColors = {
   normal: '#A8A878',
@@ -51,8 +51,8 @@ const titleCaseName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
 const backgroundColor = backgroundColors[type]
 
   return (
-    <Link to={`/${id}`} style={{ textDecoration: "none"}}>
-
+    // <Link to={`/${id}`} style={{ textDecoration: "none"}}>
+    <Button onClick={() => clickHero(name)}>
       <Card sx={{ width: 200, height: 250 }}>
         {/* <CardActionArea style={{backgroundColor: backgroundColor}}> */}
         <CardActionArea style={{backgroundColor: backgroundColor}}>
@@ -66,7 +66,7 @@ const backgroundColor = backgroundColors[type]
             component="img"
             sx={{height: 180, maxWidth: 170, margin: "auto", marginTop: "15px"}}
             image={`${image}`}
-            alt={name}
+            alt={`Pokemon name: ${name}`}
           />
           
           <CardContent style={{position: "relative"}}>
@@ -78,8 +78,8 @@ const backgroundColor = backgroundColors[type]
           </CardContent>
         </CardActionArea>
       </Card>
-      
-    </Link>
+    </Button>
+    // </Link>
 )
 }
 

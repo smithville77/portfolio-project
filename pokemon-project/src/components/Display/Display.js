@@ -196,7 +196,7 @@ const chooseHero = (heroName) => {
 {hero === null ? 
 
 (
-    <Container style={{display: "flex", alignItems: "center", flexDirection: "column", paddingTop: "50px", marginBottom: "100px"}}>
+    <Container style={{display: "flex", alignItems: "center", flexDirection: "column", paddingTop: "50px", marginBottom: "100px", height: "500px"}}>
       <h1 style={{fontFamily: 'Pokemon Solid', margin: "0", fontSize: "48px"}}>PokeSearch!</h1>
       <h2 style={{ marginTop: "0px"}}>Welcome To This Page!</h2>
       {/* <p style={{width: "50vw"}}>Search, find and get more information about your favorite pokemon! Over 1000 pokedex entries! sort by type and blah blah blah more information. 
@@ -337,7 +337,7 @@ const chooseHero = (heroName) => {
                       name={pokemon.name}
                       image={pokemon.image}
                       index={pokemon.index}
-                      
+                      clickHero={chooseHero}
                      
                     />
                   </Grid>
