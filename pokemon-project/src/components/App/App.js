@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import './App.css';
 import PokeInfoPage from '../PokeInfoPage/PokeInfoPage.';
+import PageNotFound from '../PageNotFound/PageNotFound';
 
 function App() {
   return (
@@ -13,8 +14,10 @@ function App() {
       <BrowserRouter>
       <NavBar />
         <Routes>
+          <Route path="/*" element={<PageNotFound/>} />
           <Route path="/" element={<Display />} />
           <Route path="/:id" element={<PokeInfoPage/>} />
+          
         </Routes>
       </BrowserRouter>
       <ScrollToTop />

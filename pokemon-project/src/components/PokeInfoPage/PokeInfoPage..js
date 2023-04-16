@@ -133,7 +133,7 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
 
     
    {/* image section */}
-   <Container style={{display: "flex", height: "200px", background: `linear-gradient(to bottom, ${backgroundColor}, white)`, borderTopLeftRadius: "20px", borderTopRightRadius: "20px"}}>
+   <Container style={{display: "flex", height: "fit-content", background: `linear-gradient(to bottom, ${backgroundColor}, white)`, borderTopLeftRadius: "20px", borderTopRightRadius: "20px"}}>
       
       <Container style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start"}}>
         <p style={{marginBottom: "0", fontSize: "60px", color: "white", opacity: "0.6"}}><strong>#</strong>{pokeObject.id}</p>
@@ -141,7 +141,7 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
       </Container>
 
       <Container style={{display: "flex"}}>
-        <Image style={{width: "200px"}} src={`${pokeObject.sprites.other["official-artwork"].front_default}`} />
+        <Image style={{width: "250px", maxHeight: "250px"}} src={`${pokeObject.sprites.other["official-artwork"].front_default}`} />
         
       </Container>
     </Container>
@@ -197,14 +197,18 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
   <div style={{display: "flex", justifyContent: "center", alignItems: "center", paddingLeft: "10px"}}>
     <p style={{margin: 0}}>Moves:</p>
   </div>
+
+  
   <Container style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
+
     <div style={{display: "flex", alignItems: "center"}}>
       <Image style={{paddingRight: "10px", width: "30px", height: "30px"}} src={require(`../images/images-SwSh/${pokeObject.types[0].type.name}_icon_SwSh.png`)} />
       <p style={{margin: 0, width: "200px"}}>{pokeObject.moves[0].move.name}</p>
     </div>
+
     <div style={{display: "flex", alignItems: "center", paddingTop: "10px"}}>
       <Image style={{paddingRight: "10px", width: "30px", height: "30px"}} src={require(`../images/images-SwSh/${pokeObject.types[0].type.name}_icon_SwSh.png`)} />
-      <p style={{margin: 0, width: "200px"}}>{pokeObject.moves[10].move.name}</p>
+      <p style={{margin: 0, width: "200px"}}>{pokeObject.moves[1].move.name}</p>
     </div>
    
 
@@ -213,51 +217,45 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
   
 </div>
 
- 
-
-
-
 
 <Container style={{display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "white"}}>
   
-  <p><strong>Shiny Form:</strong>
-    <Image style={{width: "180px", height: "180px", padding: "30px", objectFit: "contain"}} src={`${pokeObject.sprites.other["official-artwork"].front_shiny}`} />
-  </p>
-  <p><strong>Dream World Form:</strong>
-    {pokeObject.sprites.other.dream_world.front_default ?
-      <Image style={{width: "180px", height: "180px", padding: "30px", objectFit: "contain"}} src={`${pokeObject.sprites.other.dream_world.front_default}`} />
-      :
-      <p>Sorry, that image doesn't exist</p>
-    }
-  </p>
+    <p><strong>Shiny Form:</strong>
+      <Image style={{width: "150px", height: "150px", padding: "30px", objectFit: "contain"}} src={`${pokeObject.sprites.other["official-artwork"].front_shiny}`} />
+    </p>
+
+
+    <p><strong>Dream World Form:</strong>
+      {pokeObject.sprites.other.dream_world.front_default ?
+        <Image style={{width: "150px", height: "150px", padding: "30px", objectFit: "contain"}} src={`${pokeObject.sprites.other.dream_world.front_default}`} />
+        :
+        <p>Sorry, that image doesn't exist</p>
+      }
+    </p>
   
 </Container>
-
-
 
 
     <p style={{ margin: "0", padding: "30px", paddingBottom: "100px", borderBottomLeftRadius: "20px", borderBottomRightRadius: "20px", backgroundColor: "white"}}>
       
       <strong>PokeDex Description: </strong>{pokedexEntry.flavor_text_entries[3].flavor_text}</p>
     
-      
-      
     </Container>
-    <Container style={{display: "flex", justifyContent: "space-around", height: "110px", width: "90px", marginTop: "150px", alignItems: "center" }}>
-        <Link style={{textDecoration: "none"}} to={`/${prevPokemonID}`}>
-          <Image style={{width: "120px", textDecoration: "none"}} src={`${prevPokemon.sprites.other["official-artwork"].front_default}`} />
-          <h4>{prevPokemon.name} #{prevPokemon.id}</h4>
-          <ArrowBack />
+    
+     <Container style={{display: "flex", justifyContent: "space-around", height: "110px", width: "90px", marginTop: "100px", alignItems: "center" }}>
+        <Link style={{textDecoration: "none", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center", marginRight: "80px" }} to={`/${prevPokemonID}`}>
+            <Image style={{width: "120px", textDecoration: "none"}} src={`${prevPokemon.sprites.other["official-artwork"].front_default}`} />
+            <h4>{prevPokemon.name} #{prevPokemon.id}</h4>
+            <ArrowBack />
         </Link>
-        
-        <Link style={{textDecoration: "none", paddingLeft: "100px"}} to={`/${nextPokemonID}`}>
-        <Image style={{width: "120px" }} src={`${nextPokemon.sprites.other["official-artwork"].front_default}`} />
-        <h4>{nextPokemon.name} #{nextPokemon.id}</h4>
-        <ArrowForward />
+          
+        <Link style={{textDecoration: "none", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }} to={`/${nextPokemonID}`}>
+            <Image style={{width: "120px" }} src={`${nextPokemon.sprites.other["official-artwork"].front_default}`} />
+            <h4>{nextPokemon.name} #{nextPokemon.id}</h4>
+            <ArrowForward />
         </Link>
-       
-      </Container>
-      </div>
+    </Container>
+    </div>
   )
 }
 
