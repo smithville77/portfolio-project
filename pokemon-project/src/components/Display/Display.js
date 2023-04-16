@@ -31,6 +31,8 @@ const [page, setPage] = useState(1);
 const [results, setResults] = useState([]);
 const [loading, setLoading] = useState(false);
 
+document.getElementById('root').style.background = "white";
+
 useEffect(() => {
   const URL = "https://pokeapi.co/api/v2/pokemon?limit=809";
   fetch(URL)
