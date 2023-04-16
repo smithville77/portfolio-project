@@ -1,6 +1,6 @@
 import CardDisplay from "../Card/Card";
 import Hero from "../Hero/Hero";
-import PokeInfoPage from "../PokeInfoPage/PokeInfoPage.";
+import PokeInfoPage from "../PokeInfoPage/PokeInfoPage";
 import { useEffect, useInsertionEffect, useState } from "react"
 import "./display.css"
 

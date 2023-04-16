@@ -4,6 +4,7 @@ import { Container } from "@mui/material"
 import Image from "mui-image"
 import Button from "@mui/material"
 import { Link } from "react-router-dom"
+import PageNotFound from "../PageNotFound/PageNotFound"
 
 
 import { ArrowBack, ArrowForward, CatchingPokemonTwoTone } from "@mui/icons-material"
@@ -31,12 +32,12 @@ const backgroundColors = {
 }
 
 const defaultBG = "white"
- 
+
 
 function PokeInfoPage() {
   const { id } = useParams()
   
-
+  
   const pokemonID = parseInt(id)
   const nextPokemonID = pokemonID + 1
   const prevPokemonID = pokemonID - 1
@@ -198,7 +199,7 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
     <p style={{margin: 0}}>Moves:</p>
   </div>
 
-  
+
   <Container style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
 
     <div style={{display: "flex", alignItems: "center"}}>
