@@ -1,4 +1,6 @@
 
+/* Animations */
+
   .ball {
     align-items: center;
     height: 50px;
@@ -40,4 +42,82 @@
         transform: translate3d(0, -5px, 0);
       }
     }
-    
+
+/* Top section - including search box */
+
+
+.hero--container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 50px;
+  margin-bottom: 100px;
+  height: 700px;
+  width: 50vw;
+  margin: auto;
+}
+
+.hero--container > h1 {
+  display: flex;
+  justify-content: center;
+  font-family: 'Pokemon Solid';
+  margin: 0 auto;
+  font-size: 48px;
+  color: #ffcb05;
+  text-shadow: 0 0 3px #000, 0 0 5px #000;
+  outline: none;
+  outline-offset: -2px;
+}
+
+.autocomplete {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 300px;
+}
+
+.hero--container > .hero--two {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.hero--image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+/* type container section */
+
+.type--symbol--container {
+  max-width: 700px;
+  margin-bottom: 50px;
+}
+
+.type--symbol--container > strong {
+  display: flex;
+  justify-content: center;
+  text-decoration: underline;
+  font-size: 18px;
+}
+
+.btn--container {
+  justify-content: space-evenly;
+  margin-bottom: 50px;
+
+}
+
+.grid--container {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.loader {
+    text-align: center;
+}

@@ -1,10 +1,7 @@
 import CardDisplay from "../Card/Card";
 import Hero from "../Hero/Hero";
-import PokeInfoPage from "../PokeInfoPage/PokeInfoPage";
-import { useEffect, useInsertionEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import "./display.css"
-
-import { CatchingPokemonTwoTone } from "@mui/icons-material";
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -199,15 +196,12 @@ const chooseHero = (heroName) => {
 {hero === null ? 
 
 (
-    <Container style={{display: "flex", alignItems: "center", flexDirection: "column", paddingTop: "50px", marginBottom: "100px", height: "600px"}}>
-      <h1 style={{fontFamily: 'Pokemon Solid', margin: "0", fontSize: "48px", color: "#ffcb05", textShadow: `0 0 3px #000, 0 0 5px #000`,
-      outline: 'none',
-        outlineOffset: '-2px',}}>PokeSearch!</h1>
+    <Container className="hero--container">
+      <h1>PokeSearch!</h1>
       
       <Autocomplete
-        style={{width: "300px", justifyContent: "center", }}
+        className="autocomplete"
         freeSolo
-        id="free-solo-2-demo"
         disableClearable
         onChange={(e, value) => chooseHero(value)}
         options={newDisplayList.map((pokemon) => pokemon.name)}
@@ -222,21 +216,20 @@ const chooseHero = (heroName) => {
               type: 'search',
             }}
           />
+
+          
         )}
         
       />
       </Container>
       ) : ( 
 
-    <Container style={{display: "flex", height: "600px", width: "50vw"}}>
-      <Container style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
-      <h2 style={{fontFamily: 'Pokemon Solid', fontSize: "36px", color: "#ffcb05", textShadow: `0 0 3px #000, 0 0 5px #000`,
-          outline: 'none',
-          outlineOffset: '-2px',}}>PokeSearch!</h2>
+    <Container className="hero--container">
+      
+      <h1>PokeSearch!</h1>
       <Autocomplete
-        style={{width: "300px", justifyContent: "center", marginBottom: "20px"}}
+        className="autocomplete"
         freeSolo
-        id="free-solo-2-demo"
         disableClearable
         onChange={(e, value) => chooseHero(value)}
         options={newDisplayList.map((pokemon) => pokemon.name)}
@@ -255,19 +248,19 @@ const chooseHero = (heroName) => {
 
       
       
-      <Container style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-              <Hero 
-                image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${hero.id}.png`}
-                name={hero.species.name}
-                types={hero.types}
-                id={hero.id}
-              />
+      <Container className="hero--image">
+        <Hero 
+          image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${hero.id}.png`}
+          name={hero.species.name}
+          types={hero.types}
+          id={hero.id}
+        />
       </Container>
           
     </Container>
-    </Container>
+    
   )
-      }
+}
       
 
 
@@ -277,22 +270,18 @@ const chooseHero = (heroName) => {
 
 
 {/* Maps over the types array and returns the symbol of the same name, each type is a button that sets the state of "type" with the value of the button when it's clicked */}
-<Container style={{maxWidth: "700px", marginBottom: "50px"}}>
-      <strong style={{ display: "flex", justifyContent: "center", textDecoration: "underline", fontSize: "18px"}}>Sort by your favorite Pokemon type!</strong> <br />
+<Container className="type--symbol--container">
+      <strong>Sort by your favorite Pokemon type!</strong> <br />
     {pokemonTypes.map(pokeType => {
       return <Button className="typeButton" value={pokeType} onClick={() =>setType(pokeType)}>
         <Image style={{width: "50px"}} src={require(`../images/images-SwSh/${pokeType}_icon_SwSh.png`)} />
         </Button>
         
     })}
-
-{/* <Button onClick={() => setResults(newDisplayList)}>All</Button> */}
-
-
 </Container>
 
 {/* Buttons to sort the display results by number, alphabetically and has the option to change the hero image to a random pokemon */}
-      <Container style={{display: "flex", justifyContent: "space-evenly", marginBottom: "50px"}}>
+      <Container className="btn--container" style={{ display: "flex"}}>
         <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={() => resetList()}>All</Button>
         <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={sortAlpha}>Sort alphabetically</Button>
       
@@ -309,19 +298,17 @@ const chooseHero = (heroName) => {
 
         <InfiniteScroll
             pageStart={0}
-
             loadMore={loadFunc}
             hasMore={results.length < newDisplayList.length}
             loader={displayState === "number" || displayState === "alphabet" ? <div className="loader" key={0}>Loading ...</div> : <p style={{textAlign: "center"}}><strong> --- End of results ---</strong></p>}
         >
 
-            <Grid container style={{display: "flex", textAlign: "center", justifyContent: "center"}} spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+            <Grid container className="grid--container" spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 
               {results.map((pokemon, index) => {
                 return (
                   <Grid key={index}>
                     <CardDisplay
-                      // chooseHero={(name) => chooseHero(name, pokemon.id)}
                       id={pokemon.id}
                       name={pokemon.name}
                       image={pokemon.image}
