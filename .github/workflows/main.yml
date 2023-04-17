@@ -22,8 +22,7 @@ jobs:
 
       # - name: Install dependencies and run unit tests
       #   run: npm install && npm run tests
-      - name: Change directory
-        run: cd pokemon-project
+      
 
       - name: Build React App
         run: run npm ./build
