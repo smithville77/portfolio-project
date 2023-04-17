@@ -34,5 +34,5 @@ jobs:
           CI: false
       
       - name: Deploy static assests to S3 bucket
-        run: aws s3 sync ./build/ s3://${{ secrets.BUCKET }} --delete
+        run: aws s3 sync ./pokemon-project/build/ s3://${{ secrets.BUCKET }} --delete
 
