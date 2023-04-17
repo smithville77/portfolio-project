@@ -1,0 +1,19 @@
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+.container {
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.button {
+  background-color: #003a70;
+  color: white;
+}
