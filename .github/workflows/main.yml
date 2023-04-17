@@ -1,34 +1,6 @@
 
-# name: Upload website to S3
+name: Upload website to S3
 
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs: 
-#   deploy:
-#     runs-on: ubuntu-latest
-#     steps:  
-#       - name: Checkout
-#         uses: actions/checkout@v3
-
-#       - name: Configure AWS Credentials
-#         uses: aws-actions/configure-aws-credentials@v1
-#         with: 
-#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#           aws-region: ${{ secrets.AWS_REGION }}
-
-#       - name: Change to correct directory
-#         run: cd pokemon-project
-
-#       - name: Install dependencies and run unit tests
-#         run: npm install 
-      
-
-#       - name: Build React App
-#         run:  npm run build
 on:
   push:
     branches:
@@ -48,20 +20,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Install Node.js and npm
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y nodejs npm
-
-      - name: Change to correct directory
-        run: cd pokemon-project
+      
 
       - name: Install dependencies and run unit tests
         run: npm install 
+        working-directory: pokemon-project
+
 
       - name: Build React App
-        run: npm run build
-
+        run:  npm run build
+        working-directory: pokemon-project
       
       - name: Deploy static assests to S3 bucket
         run: aws s3 sync ./build/ s3://${{ secrets.BUCKET }} --delete
