@@ -4,8 +4,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
+import "./card.css"
 
 
 
@@ -33,54 +34,39 @@ const backgroundColors = {
   fairy: '#EE99AC',
 }
 
-const defaultBG = "white"
-
 
 const [type, setType] = useState("")
 
 const titleCaseName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-
-// useEffect(() => {
-//   fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-//   .then(res => res.json())
-//   .then(data => {
-//     setType(data.types[0].type.name)
-//   })
-// }, [id])
-
 const backgroundColor = backgroundColors[type]
 
   return (
-    // <Link to={`/${id}`} style={{ textDecoration: "none"}}>
     <Button onClick={() => clickHero(name)}>
-      <Card sx={{ width: 200, height: 250 }}>
-        {/* <CardActionArea style={{backgroundColor: backgroundColor}}> */}
-        <CardActionArea style={{backgroundColor: backgroundColor}}>
-          <Typography style={{position: "absolute", top: "0", right: "2px", fontSize: "40px", zIndex: "1", opacity: "0.7" }} variant="body2" color="text.secondary">
+      <Card className="card--container">
+        <CardActionArea className="card--action" style={{backgroundColor: backgroundColor}}>
+
+          <Typography className="card--typography" style={{fontSize: "40px"}} color="text.secondary">
               {`#${id} `}  
-              
             </Typography>
+
           <CardMedia
             value={name}
-          
+            className="card--media"
             component="img"
-            sx={{height: 180, maxWidth: 170, margin: "auto", marginTop: "15px"}}
             image={`${image}`}
             alt={`Pokemon name: ${name}`}
           />
           
-          <CardContent style={{position: "relative"}}>
+          <CardContent className="card--content">
             <Typography  gutterBottom variant="h5" component="div">
-              
               {titleCaseName}
             </Typography>
-            
           </CardContent>
         </CardActionArea>
       </Card>
     </Button>
-    // </Link>
-)
+
+  )
 }
 
 export default CardDisplay

@@ -48,6 +48,7 @@ useEffect(() => {
         
         setNewDisplayList(pokemonList);
         setResults(pokemonList)
+        
       
     });
 }, []);
@@ -142,7 +143,7 @@ const handleNumSort = () => {
 
 const loadFunc = () => {
   if (loading) return; // return early if a request is already in progress
-  setLoading(true); // set loading state to true
+  setLoading(true); 
   
   if (displayState === "number" || displayState === "alphabet") {
    const newResults = newDisplayList.slice((page - 1) * 20, page * 20); 
@@ -198,12 +199,11 @@ const chooseHero = (heroName) => {
 {hero === null ? 
 
 (
-    <Container style={{display: "flex", alignItems: "center", flexDirection: "column", paddingTop: "50px", marginBottom: "100px", height: "500px"}}>
+    <Container style={{display: "flex", alignItems: "center", flexDirection: "column", paddingTop: "50px", marginBottom: "100px", height: "600px"}}>
       <h1 style={{fontFamily: 'Pokemon Solid', margin: "0", fontSize: "48px", color: "#ffcb05", textShadow: `0 0 3px #000, 0 0 5px #000`,
-  outline: 'none',
-  outlineOffset: '-2px',}}>PokeSearch!</h1>
-      {/* <p style={{width: "50vw"}}>Search, find and get more information about your favorite pokemon! Over 1000 pokedex entries! sort by type and blah blah blah more information. 
-      </p> */}
+      outline: 'none',
+        outlineOffset: '-2px',}}>PokeSearch!</h1>
+      
       <Autocomplete
         style={{width: "300px", justifyContent: "center", }}
         freeSolo
@@ -225,13 +225,14 @@ const chooseHero = (heroName) => {
         )}
         
       />
-      
       </Container>
-) : ( <Container style={{display: "flex", height: "600px", width: "50vw"}}>
+      ) : ( 
+
+    <Container style={{display: "flex", height: "600px", width: "50vw"}}>
       <Container style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
       <h2 style={{fontFamily: 'Pokemon Solid', fontSize: "36px", color: "#ffcb05", textShadow: `0 0 3px #000, 0 0 5px #000`,
-  outline: 'none',
-  outlineOffset: '-2px',}}>PokeSearch!</h2>
+          outline: 'none',
+          outlineOffset: '-2px',}}>PokeSearch!</h2>
       <Autocomplete
         style={{width: "300px", justifyContent: "center", marginBottom: "20px"}}
         freeSolo
