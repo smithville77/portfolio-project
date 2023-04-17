@@ -21,7 +21,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Change to correct directory
-        run: cd pokemon-project
+        run: cd /pokemon-project
 
       - name: Install dependencies and run unit tests
         run: npm install 
