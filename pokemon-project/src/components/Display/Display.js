@@ -279,7 +279,7 @@ const chooseHero = (heroName) => {
 <Container style={{maxWidth: "700px", marginBottom: "50px"}}>
       <strong style={{ display: "flex", justifyContent: "center", textDecoration: "underline", fontSize: "18px"}}>Sort by your favorite Pokemon type!</strong> <br />
     {pokemonTypes.map(pokeType => {
-      return <Button value={pokeType} onClick={() =>setType(pokeType)}>
+      return <Button className="typeButton" value={pokeType} onClick={() =>setType(pokeType)}>
         <Image style={{width: "50px"}} src={require(`../images/images-SwSh/${pokeType}_icon_SwSh.png`)} />
         </Button>
         
@@ -292,12 +292,12 @@ const chooseHero = (heroName) => {
 
 {/* Buttons to sort the display results by number, alphabetically and has the option to change the hero image to a random pokemon */}
       <Container style={{display: "flex", justifyContent: "space-evenly", marginBottom: "50px"}}>
-        <Button onClick={() => resetList()}>All</Button>
-        <Button onClick={sortAlpha}>Sort alphabetically</Button>
+        <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={() => resetList()}>All</Button>
+        <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={sortAlpha}>Sort alphabetically</Button>
       
       
-        <Button onClick={handleNumSort}>Sort numerically</Button>
-        <Button onClick={handleRandom}>Random Pokemon</Button>
+        <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={handleNumSort}>Sort numerically</Button>
+        <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={handleRandom}>Random Pokemon</Button>
       </Container>
 
       

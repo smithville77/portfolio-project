@@ -23,3 +23,21 @@
       20%, 40%, 60%, 80% {transform: translateX(10px);}
     }
   
+
+    .typeButton:hover {
+      animation-name: bounce;
+      animation-duration: 0.3s;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      box-shadow: none !important;
+    }
+    
+    @keyframes bounce {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        transform: translate3d(0, -5px, 0);
+      }
+    }
+    

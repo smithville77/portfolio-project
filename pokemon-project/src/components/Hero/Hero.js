@@ -8,9 +8,9 @@ function Hero(props) {
   let titleCaseName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   
   return (
-    <Link to={`/${id}`} style={{ textDecoration: "none", color: "black"}}>
+    <Link to={`/pokemon/${id}`} style={{ textDecoration: "none", color: "black"}}>
     <Container style={{ textAlign: "center" }}>
-      <Image style={{maxHeight: "250px", width: "300px"}} src={`${image}`} />
+      <Image style={{maxHeight: "280px", width: "300px"}} src={`${image}`} />
       <h1>{titleCaseName}</h1>
        <Button>Click to see more</Button>
     </Container>

@@ -37,7 +37,7 @@ const defaultBG = "white"
 function PokeInfoPage() {
   const { id } = useParams()
   
-  
+
   const pokemonID = parseInt(id)
   const nextPokemonID = pokemonID + 1
   const prevPokemonID = pokemonID - 1
@@ -244,13 +244,13 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
     </Container>
     
      <Container style={{display: "flex", justifyContent: "space-around", height: "110px", width: "90px", marginTop: "100px", alignItems: "center" }}>
-        <Link style={{textDecoration: "none", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center", marginRight: "80px" }} to={`/${prevPokemonID}`}>
+        <Link style={{textDecoration: "none", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center", marginRight: "80px" }} to={`/pokemon/${prevPokemonID}`}>
             <Image style={{width: "120px", textDecoration: "none"}} src={`${prevPokemon.sprites.other["official-artwork"].front_default}`} />
             <h4>{prevPokemon.name} #{prevPokemon.id}</h4>
             <ArrowBack />
         </Link>
           
-        <Link style={{textDecoration: "none", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }} to={`/${nextPokemonID}`}>
+        <Link style={{textDecoration: "none", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }} to={`/pokemon/${nextPokemonID}`}>
             <Image style={{width: "120px" }} src={`${nextPokemon.sprites.other["official-artwork"].front_default}`} />
             <h4>{nextPokemon.name} #{nextPokemon.id}</h4>
             <ArrowForward />

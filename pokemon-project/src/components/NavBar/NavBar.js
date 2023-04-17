@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 export default function NavBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{background: "#3d7dca"}}>
+      <AppBar position="static" style={{background: "#003a70"}}>
         <Toolbar>
           {/* Adds hamburger menu, will most likely not use */}
           {/* <IconButton
