@@ -10,10 +10,11 @@ export default function PageNotFound() {
     <div className="outer--container">
       <p id="logo">PokeSearch</p>
       <h1>4 <CatchingPokemonTwoTone style={{fontSize: "120px"}} /> 4</h1>
-      <img src="https://media.tenor.com/StMx6F8h5RQAAAAM/psyduck-confused.gif" />
+      <img src="https://media.tenor.com/StMx6F8h5RQAAAAM/psyduck-confused.gif" alt={"pokemon-gif"} />
       <p>Ooops, that page doesn't exist.</p>
+      
       <Link to={`/`} style={{textDecoration: "none"}}>
-      <Button style={{backgroundColor: "#003a70", color: "white"}}>Take me home</Button>
+        <Button style={{backgroundColor: "#003a70", color: "white"}}>Take me home</Button>
       </Link>
       
 

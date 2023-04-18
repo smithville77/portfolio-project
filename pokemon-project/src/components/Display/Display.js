@@ -5,12 +5,13 @@ import "./display.css"
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
+import Image from "mui-image";
 import { Button, Container, TextField, Autocomplete } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroller";
 
 
 
-import Image from "mui-image";
+
 
 document.title = `PokeSearch!` 
 const pokemonTypes = ["normal", "fire", "water", "grass", "flying",
@@ -31,7 +32,7 @@ const [loading, setLoading] = useState(false);
 document.getElementById('root').style.background = "white";
 
 useEffect(() => {
-  const URL = "https://pokeapi.co/api/v2/pokemon?limit=809";
+  const URL = "https://pokeapi.co/api/v2/pokemon?limit=721";
   fetch(URL)
     .then((res) => res.json())
     .then((data) => {
@@ -44,12 +45,10 @@ useEffect(() => {
         }));
         
         setNewDisplayList(pokemonList);
-        setResults(pokemonList)
-        
-      
+        setResults(pokemonList) 
     });
+    handleRandom()
 }, []);
-
 
 // sets state variables back to beginning and calls original list to be displayed
 const resetList = () => {
@@ -58,8 +57,6 @@ const resetList = () => {
   // setChangeVal("")
   handleNumSort()
 }
-
-
 
 const handleNumSort = () => {
 
@@ -89,11 +86,9 @@ const handleNumSort = () => {
   
 };
 
-
-
   // sets hero image
   const handleRandom = () => {
-    let randomNum = Math.floor(Math.random() * 1000) + 1;
+    let randomNum = Math.floor(Math.random() * 721) + 1;
     let heroURL = `https://pokeapi.co/api/v2/pokemon/${randomNum}`
     fetch(heroURL)
       .then((res) => res.json())
@@ -101,8 +96,6 @@ const handleNumSort = () => {
       console.log(data)})
   
   }
-  
-   
     
   const sortAlpha = () => {
     let pokemonIndexList = newDisplayList.map((pokemon, index) => {
@@ -165,10 +158,7 @@ let typeURL = `https://pokeapi.co/api/v2/type/${type}`;
     .then(res => res.json())
     .then(data => {
       const typeList = data.pokemon.map(pokemonData => pokemonData.pokemon.name);
-
       const filteredPokemonList = newDisplayList.filter(pokemon => typeList.includes(pokemon.name));
-
-      
       setDisplayState(type)
       setResults(filteredPokemonList);
     });
@@ -185,7 +175,6 @@ const chooseHero = (heroName) => {
     .then((res) => res.json())
     .then((data) => {setHero(data);
     console.log(data)})
-
 }
 
 
@@ -193,137 +182,122 @@ const chooseHero = (heroName) => {
 
   return (
     <>
-{hero === null ? 
+    {hero === null ? 
 
-(
-    <Container className="hero--container">
-      <h1>PokeSearch!</h1>
-      
-      <Autocomplete
-        className="autocomplete"
-        freeSolo
-        disableClearable
-        onChange={(e, value) => chooseHero(value)}
-        options={newDisplayList.map((pokemon) => pokemon.name)}
-        
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search"
-            placeholder="Pikachu"
-            InputProps={{
-              ...params.InputProps,
-              type: 'search',
-            }}
+    (
+        <Container className="hero--container">
+          <h1>PokeSearch!</h1>
+          
+          <Autocomplete
+            className="autocomplete"
+            freeSolo
+            disableClearable
+            onChange={(e, value) => chooseHero(value)}
+            options={newDisplayList.map((pokemon) => pokemon.name)}
+            
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Search"
+                placeholder="Pikachu"
+                InputProps={{
+                  ...params.InputProps,
+                  type: 'search',
+                }}
+              />
+
+              
+            )}
+            
+          />
+        </Container>
+          ) : ( 
+        <Container className="hero--container">
+          <h1>PokeSearch!</h1>
+          <Autocomplete
+            className="autocomplete"
+            freeSolo
+            disableClearable
+            onChange={(e, value) => chooseHero(value)}
+            options={newDisplayList.map((pokemon) => pokemon.name)}
+            
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Search input"
+                InputProps={{
+                  ...params.InputProps,
+                  type: 'search',
+                }}
+              />
+            )}
           />
 
           
-        )}
+          <Container className="hero--image">
+            <Hero 
+              image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${hero.id}.png`}
+              name={hero.species.name}
+              types={hero.types}
+              id={hero.id}
+            />
+          </Container>  
+        </Container>
         
-      />
-      </Container>
-      ) : ( 
-
-    <Container className="hero--container">
-      
-      <h1>PokeSearch!</h1>
-      <Autocomplete
-        className="autocomplete"
-        freeSolo
-        disableClearable
-        onChange={(e, value) => chooseHero(value)}
-        options={newDisplayList.map((pokemon) => pokemon.name)}
-        
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search input"
-            InputProps={{
-              ...params.InputProps,
-              type: 'search',
-            }}
-          />
-        )}
-      />
-
-      
-      
-      <Container className="hero--image">
-        <Hero 
-          image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${hero.id}.png`}
-          name={hero.species.name}
-          types={hero.types}
-          id={hero.id}
-        />
-      </Container>
+      )
+    }
           
+    {/* Maps over the types array and returns the symbol of the same name, each type is a button that sets the state of "type" with the value of the button when it's clicked */}
+    <Container className="type--symbol--container" style={{maxWidth: "700px"}}>
+        <strong>Sort by Pokemon type</strong> <br />
+
+        {pokemonTypes.map(pokeType => {
+          return <Button className="typeButton" value={pokeType} onClick={() =>setType(pokeType)}>
+            <Image style={{width: "50px"}} src={require(`../images/images-SwSh/${pokeType}_icon_SwSh.png`)} />
+            </Button>   
+        })}
     </Container>
-    
-  )
-}
-      
 
+    {/* Buttons to sort the display results by number, alphabetically and has the option to change the hero image to a random pokemon */}
+          <Container className="btn--container" style={{ display: "flex"}}>
+            <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={() => resetList()}>All</Button>
+            <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={sortAlpha}>Sort alphabetically</Button>
+          
+          
+            <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={handleNumSort}>Sort numerically</Button>
+            <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={handleRandom}>Random Pokemon</Button>
+          </Container>
 
+          
+    {/* contains the grid displaying the current state of the results state */}
+          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
 
-  {/* loading screen or hero image is displayed */}
-       
+            <InfiniteScroll
+                pageStart={0}
+                loadMore={loadFunc}
+                hasMore={results.length < newDisplayList.length}
+                loader={displayState === "number" || displayState === "alphabet" ? <div className="loader" key={0}>Loading ...</div> : <p style={{textAlign: "center"}}><strong> --- End of results ---</strong></p>}
+            >
 
-
-{/* Maps over the types array and returns the symbol of the same name, each type is a button that sets the state of "type" with the value of the button when it's clicked */}
-<Container className="type--symbol--container">
-      <strong>Sort by your favorite Pokemon type!</strong> <br />
-    {pokemonTypes.map(pokeType => {
-      return <Button className="typeButton" value={pokeType} onClick={() =>setType(pokeType)}>
-        <Image style={{width: "50px"}} src={require(`../images/images-SwSh/${pokeType}_icon_SwSh.png`)} />
-        </Button>
-        
-    })}
-</Container>
-
-{/* Buttons to sort the display results by number, alphabetically and has the option to change the hero image to a random pokemon */}
-      <Container className="btn--container" style={{ display: "flex"}}>
-        <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={() => resetList()}>All</Button>
-        <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={sortAlpha}>Sort alphabetically</Button>
-      
-      
-        <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={handleNumSort}>Sort numerically</Button>
-        <Button style={{backgroundColor: "#003a70", color: "white"}} onClick={handleRandom}>Random Pokemon</Button>
-      </Container>
-
-      
-
-
-{/* contains the grid displaying the current state of the results state */}
-      <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-
-        <InfiniteScroll
-            pageStart={0}
-            loadMore={loadFunc}
-            hasMore={results.length < newDisplayList.length}
-            loader={displayState === "number" || displayState === "alphabet" ? <div className="loader" key={0}>Loading ...</div> : <p style={{textAlign: "center"}}><strong> --- End of results ---</strong></p>}
-        >
-
-            <Grid container className="grid--container" spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-
-              {results.map((pokemon, index) => {
-                return (
-                  <Grid key={index}>
-                    <CardDisplay
-                      id={pokemon.id}
-                      name={pokemon.name}
-                      image={pokemon.image}
-                      index={pokemon.index}
-                      clickHero={chooseHero}
-                     
-                    />
-                  </Grid>
-                )
-              })}
-            </Grid>
-        </InfiniteScroll>
-      </Box>
-    </>
-  )
-}
+                <Grid container className="grid--container" spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                  {results.map((pokemon, index) => {
+                    return (
+                      <Grid key={index}>
+                        <CardDisplay
+                          id={pokemon.id}
+                          name={pokemon.name}
+                          image={pokemon.image}
+                          index={pokemon.index}
+                          clickHero={chooseHero}
+                        />
+                      </Grid>
+                    )
+                  })}
+                </Grid>
+            </InfiniteScroll>
+          </Box>
+        </>
+      )
+    }
 
 export default Display

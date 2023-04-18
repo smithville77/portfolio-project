@@ -52,8 +52,8 @@
   justify-content: center;
   flex-direction: column;
   padding-top: 50px;
-  margin-bottom: 100px;
-  height: 700px;
+  /* margin-bottom: 100px; */
+  height: 650px;
   width: 50vw;
   margin: auto;
 }
@@ -89,14 +89,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+  margin-top: 50px;
 }
 
 /* type container section */
 
 .type--symbol--container {
-  max-width: 700px;
+  max-width: 500px;
   margin-bottom: 50px;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
 }
 
 .type--symbol--container > strong {

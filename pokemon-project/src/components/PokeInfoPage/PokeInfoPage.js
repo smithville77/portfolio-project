@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Container } from "@mui/material"
-import Image from "mui-image"
-import Button from "@mui/material"
-import { Link } from "react-router-dom"
-import PageNotFound from "../PageNotFound/PageNotFound"
-import "./PokeInfoPage.css"
-
-
 import { ArrowBack, ArrowForward, CatchingPokemonTwoTone } from "@mui/icons-material"
-
+import Image from "mui-image"
+import { Link } from "react-router-dom"
+import "./PokeInfoPage.css"
 
 const backgroundColors = {
   normal: '#A8A878',
@@ -32,21 +27,11 @@ const backgroundColors = {
   fairy: '#EE99AC',
 }
 
-const defaultBG = "white"
-
-
 function PokeInfoPage() {
   const { id } = useParams()
-  
-
   const pokemonID = parseInt(id)
   const nextPokemonID = pokemonID + 1
   const prevPokemonID = pokemonID - 1
-
-  
-
-
-
   
   const URL = `https://pokeapi.co/api/v2/pokemon/${pokemonID}/`
   const pokedexURL = `https://pokeapi.co/api/v2/pokemon-species/${pokemonID}`
@@ -55,15 +40,16 @@ function PokeInfoPage() {
 
   const [ pokedexEntry, setPokedexEntry ] = useState([])
   const [ pokeDexEntryLoading, setDexEntryLoading] = useState(true)
+
 // set the title of the page
-document.title = `PokeSearch! -  ${pokeObject.name}` 
+  document.title = `PokeSearch! -  ${pokeObject.name}` 
   
   const nextURL = `https://pokeapi.co/api/v2/pokemon/${nextPokemonID}/`
   const prevURL = `https://pokeapi.co/api/v2/pokemon/${prevPokemonID}/`
- const [ nextPokemon, setNextPokemon] = useState([])
- const [ prevPokemon, setPrevPokemon] = useState([])
- const [ nextPokemonLoading, setNextPokemonLoading ] = useState(true)
- const [ prevPokemonLoading, setPrevPokemonLoading ] = useState(true)
+  const [ nextPokemon, setNextPokemon] = useState([])
+  const [ prevPokemon, setPrevPokemon] = useState([])
+  const [ nextPokemonLoading, setNextPokemonLoading ] = useState(true)
+  const [ prevPokemonLoading, setPrevPokemonLoading ] = useState(true)
 
  // converts name to title case
 //  const titleCaseName = pokeObject.name.charAt(0).toUpperCase() + pokeObject.name.slice(1).toLowerCase();
@@ -74,7 +60,6 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
     .then(data => {
       setNextPokemon(data)
       setNextPokemonLoading(false)
-      
     })
       
   }, [nextURL])
@@ -90,8 +75,6 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
   }, [prevURL])
 
 
-
-
   useEffect(() => {
     fetch(URL)
     .then(res => res.json())
@@ -99,7 +82,6 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
       console.log(data)
       setPokeObject(data)
       setPokeObjectLoading(false)
-      
     })
       
   }, [URL])
@@ -120,20 +102,19 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
     return <Container style={{paddingTop: "10%", textAlign: "center"}}>
     <CatchingPokemonTwoTone style={{fontSize: "48px"}} className={"ball"} />
     <h3>Loading...</h3>
-    
   </Container>
   }
+
   const backgroundColor = backgroundColors[pokeObject.types[0].type.name]
   document.getElementById('root').style.background = `linear-gradient(${backgroundColor}, white)`;
- const titleCaseName = pokeObject.name.charAt(0).toUpperCase() + pokeObject.name.slice(1).toLowerCase();
+  const titleCaseName = pokeObject.name.charAt(0).toUpperCase() + pokeObject.name.slice(1).toLowerCase();
 
   return (
     <div className="main">
     <div className="main--container">
 
 {/* Top section, experience points, type logo */}
-
-    
+ 
    {/* image section */}
    <div className="image--container" style={{ background: `linear-gradient(to bottom, ${backgroundColor}, white)`}}>
       
@@ -144,9 +125,10 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
 
       <div className="hero--image">
         <Image style={{width: "250px", maxHeight: "250px"}} src={`${pokeObject.sprites.other["official-artwork"].front_default}`} />
-        
       </div>
+
     </div>
+
     {/* height weight and abilities go here */}
     <Container style={{display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "white"}}>
 
@@ -175,17 +157,19 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
             <p><strong>HP:</strong></p>
             <p>{pokeObject.stats[0].base_stat}</p>
         </div>
-          <div>
-            <p><strong>Type:</strong></p>
-          {pokeObject.types.map((type, index) => (
-            <Image 
-              key={index} 
-              style={{ height: "20px", width: "20px" }} 
-              src={require(`../images/images-SwSh/${type.type.name}_icon_SwSh.png`)}
-            />
-          ))}
-          </div>
+
+        <div>
+          <p><strong>Type:</strong></p>
+        {pokeObject.types.map((type, index) => (
+          <Image 
+            key={index} 
+            style={{ height: "20px", width: "20px" }} 
+            src={require(`../images/images-SwSh/${type.type.name}_icon_SwSh.png`)}
+          />
+        ))}
         </div>
+
+      </div>
 </Container>
 
 {/* orange line break  */}
@@ -194,11 +178,10 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
     </Container>
 
 {/* two moves and their type || have the pokedex description*/}
-<div style={{display: "grid", gridTemplateColumns: "auto 1fr", backgroundColor: "white"}}>
-  <div id="moves">
-    <p style={{margin: 0}}>Moves:</p>
-  </div>
-
+    <div style={{display: "grid", gridTemplateColumns: "auto 1fr", backgroundColor: "white"}}>
+      <div id="moves">
+        <p style={{margin: 0}}>Moves:</p>
+      </div>
 
   <Container className="moves--container">
 
@@ -212,12 +195,8 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
       <p>{pokeObject.moves[1].move.name}</p>
     </div>
    
-  
-
-
   </Container>
 
-  
 </div>
 
 
@@ -247,11 +226,12 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
     <div className="pokedex--desc">
       <p><strong>PokeDex Description: </strong>{pokedexEntry.flavor_text_entries[3].flavor_text}</p>
     </div>
+    
 </div>
     
 {/* next and previous pokemon section */}
 
-     <Container className="next-prev-sect" style={{display: "flex", justifyContent: "space-evenly"}}>
+     <Container className="next-prev-sect" style={{display: "flex", justifyContent: "space-evenly", marginBottom: "100px"}}>
       <div>
           <Link style={{textDecoration: "none"}} to={`/pokemon/${prevPokemonID}`}>
               <Image style={{width: "120px", textDecoration: "none"}} src={`${prevPokemon.sprites.other["official-artwork"].front_default}`} />
@@ -264,7 +244,7 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
           <Link style={{textDecoration: "none" }} to={`/pokemon/${nextPokemonID}`}>
               <Image style={{width: "120px" }} src={`${nextPokemon.sprites.other["official-artwork"].front_default}`} />
               <h4>{nextPokemon.name} #{nextPokemon.id}</h4>
-              <ArrowForward />
+              <ArrowForward style={{marginLeft: "60px"}} />
           </Link>
        </div> 
     </Container>

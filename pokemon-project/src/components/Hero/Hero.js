@@ -9,13 +9,15 @@ function Hero(props) {
   let titleCaseName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   
   return (
-    <Link to={`/pokemon/${id}`} className="link">
+    
       <Container className="container">
-        <Image style={{maxHeight: "250px", width: "300px"}} src={`${image}`} />
+        <Image style={{maxHeight: "270px", width: "300px"}} src={`${image}`} />
         <h1 className="title">{titleCaseName}</h1>
-        <Button className="button">Click to see more</Button>
+        <Link to={`/pokemon/${id}`} className="link">
+          <Button className="button">Click to see more</Button>
+        </Link>
       </Container>
-    </Link>
+    
   )
 }
 
