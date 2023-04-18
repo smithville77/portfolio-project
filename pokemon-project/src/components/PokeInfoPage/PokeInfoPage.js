@@ -5,6 +5,7 @@ import Image from "mui-image"
 import Button from "@mui/material"
 import { Link } from "react-router-dom"
 import PageNotFound from "../PageNotFound/PageNotFound"
+import "./PokeInfoPage.css"
 
 
 import { ArrowBack, ArrowForward, CatchingPokemonTwoTone } from "@mui/icons-material"
@@ -127,91 +128,92 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
  const titleCaseName = pokeObject.name.charAt(0).toUpperCase() + pokeObject.name.slice(1).toLowerCase();
 
   return (
-    <div>
-    <Container style={{height: "fit-content", width: "600px", textAlign: "center", marginTop: "100px", padding: 0,  borderRadius: "20px", border: "2px solid"}}>
+    <div className="main">
+    <div className="main--container">
 
 {/* Top section, experience points, type logo */}
 
     
    {/* image section */}
-   <Container style={{display: "flex", height: "fit-content", background: `linear-gradient(to bottom, ${backgroundColor}, white)`, borderTopLeftRadius: "20px", borderTopRightRadius: "20px"}}>
+   <div className="image--container" style={{ background: `linear-gradient(to bottom, ${backgroundColor}, white)`}}>
       
-      <Container style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start"}}>
-        <p style={{marginBottom: "0", fontSize: "60px", color: "white", opacity: "0.6"}}><strong>#</strong>{pokeObject.id}</p>
-        <h1 style={{ textAlign: "center", fontSize: "56px"}}>{titleCaseName}</h1>
-      </Container>
+      <div className="name--number" >
+        <p className="hero--id"><strong>#</strong>{pokeObject.id}</p>
+        <h1>{titleCaseName}</h1>
+      </div>
 
-      <Container style={{display: "flex"}}>
+      <div className="hero--image">
         <Image style={{width: "250px", maxHeight: "250px"}} src={`${pokeObject.sprites.other["official-artwork"].front_default}`} />
         
-      </Container>
-    </Container>
+      </div>
+    </div>
     {/* height weight and abilities go here */}
-    <Container style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "white"}}>
-      <div style={{display: "flex", width: "300px", justifyContent: "space-between", margin: "0"}}>
+    <Container style={{display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "white"}}>
+
+      <div className="height-weight-div">
         <p><strong>Height: </strong>{pokeObject.height}"</p>
         <p><strong>Weight: </strong>{pokeObject.weight} lbs.</p>
       </div>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <p style={{ margin: 0 }}><strong>Abilities:</strong></p>
+
+      <div className="ability--div">
+        <p><strong>Abilities:</strong></p>
         {pokeObject.abilities.map((ability, index) => (
-          <p style={{ margin: 0, marginLeft: "10px" }}><strong>{index+1}.</strong> {ability.ability.name}</p>
+          <p><strong>{index+1}.</strong> {ability.ability.name}</p>
         ))}
-      </div>
+      </div> 
 
 
-      <Container style={{ display: "flex", height: "40px", alignItems: "center", backgroundColor: "white"}}>
-  <div style={{ display: "flex", alignItems: "flex-end" }}>
-    <p style={{ marginRight: "10px", marginBottom: "0" }}><strong>exp:</strong></p>
-    <p style={{ marginBottom: "0" }}>{pokeObject.base_experience}</p>
-  </div>
+      <Container className="exp--hp--container" style={{ display: "flex"}}>
 
-  <div style={{ marginLeft: "auto", display: "flex", alignItems: "flex-end" }}>
-    <div style={{ display: "flex", alignItems: "center" }}>
-      <p style={{ marginRight: "10px", marginBottom: "0" }}><strong>HP:</strong></p>
-      <p style={{ marginBottom: "0" }}>{pokeObject.stats[0].base_stat}</p>
-    </div>
-    
-    {pokeObject.types.map((type, index) => (
-      <Image 
-        key={index} 
-        style={{ paddingLeft: "10px", height: "20px", width: "20px" }} 
-        src={require(`../images/images-SwSh/${type.type.name}_icon_SwSh.png`)}
-      />
-    ))}
-  </div>
+        <div className="exp--section">
+          <p><strong>exp:</strong></p>
+          <p>{pokeObject.base_experience}</p>
+        </div>
+
+        <div className="hp--section" >
+          <div >
+            <p><strong>HP:</strong></p>
+            <p>{pokeObject.stats[0].base_stat}</p>
+        </div>
+          <div>
+            <p><strong>Type:</strong></p>
+          {pokeObject.types.map((type, index) => (
+            <Image 
+              key={index} 
+              style={{ height: "20px", width: "20px" }} 
+              src={require(`../images/images-SwSh/${type.type.name}_icon_SwSh.png`)}
+            />
+          ))}
+          </div>
+        </div>
 </Container>
 
-      <hr style={{ 
-    border: 'none', 
-    height: '3px', 
-    backgroundColor: `${backgroundColor}`,
-    width: '100%',
-    margin: '10px auto',
-    
-  }} />
+{/* orange line break  */}
+    <hr id="break" style={{backgroundColor: `${backgroundColor}`}} />
 
     </Container>
 
 {/* two moves and their type || have the pokedex description*/}
 <div style={{display: "grid", gridTemplateColumns: "auto 1fr", backgroundColor: "white"}}>
-  <div style={{display: "flex", justifyContent: "center", alignItems: "center", paddingLeft: "10px"}}>
+  <div id="moves">
     <p style={{margin: 0}}>Moves:</p>
   </div>
 
 
-  <Container style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
+  <Container className="moves--container">
 
-    <div style={{display: "flex", alignItems: "center"}}>
+    <div className="image--moves" >
       <Image style={{paddingRight: "10px", width: "30px", height: "30px"}} src={require(`../images/images-SwSh/${pokeObject.types[0].type.name}_icon_SwSh.png`)} />
-      <p style={{margin: 0, width: "200px"}}>{pokeObject.moves[0].move.name}</p>
+      <p>{pokeObject.moves[0].move.name}</p>
     </div>
 
-    <div style={{display: "flex", alignItems: "center", paddingTop: "10px"}}>
+    <div className="image--moves">
       <Image style={{paddingRight: "10px", width: "30px", height: "30px"}} src={require(`../images/images-SwSh/${pokeObject.types[0].type.name}_icon_SwSh.png`)} />
-      <p style={{margin: 0, width: "200px"}}>{pokeObject.moves[1].move.name}</p>
+      <p>{pokeObject.moves[1].move.name}</p>
     </div>
    
+  
+
 
   </Container>
 
@@ -219,7 +221,10 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
 </div>
 
 
-<Container style={{display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "white"}}>
+
+
+{/* Image forms  section */}
+<Container className="image--forms--sect" style={{display: "flex"}}>
   
     <p><strong>Shiny Form:</strong>
       <Image style={{width: "150px", height: "150px", padding: "30px", objectFit: "contain"}} src={`${pokeObject.sprites.other["official-artwork"].front_shiny}`} />
@@ -237,26 +242,33 @@ document.title = `PokeSearch! -  ${pokeObject.name}`
 </Container>
 
 
-    <p style={{ margin: "0", padding: "30px", paddingBottom: "100px", borderBottomLeftRadius: "20px", borderBottomRightRadius: "20px", backgroundColor: "white"}}>
-      
-      <strong>PokeDex Description: </strong>{pokedexEntry.flavor_text_entries[3].flavor_text}</p>
-    
-    </Container>
-    
-     <Container style={{display: "flex", justifyContent: "space-around", height: "110px", width: "90px", marginTop: "100px", alignItems: "center" }}>
-        <Link style={{textDecoration: "none", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center", marginRight: "80px" }} to={`/pokemon/${prevPokemonID}`}>
-            <Image style={{width: "120px", textDecoration: "none"}} src={`${prevPokemon.sprites.other["official-artwork"].front_default}`} />
-            <h4>{prevPokemon.name} #{prevPokemon.id}</h4>
-            <ArrowBack />
-        </Link>
-          
-        <Link style={{textDecoration: "none", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }} to={`/pokemon/${nextPokemonID}`}>
-            <Image style={{width: "120px" }} src={`${nextPokemon.sprites.other["official-artwork"].front_default}`} />
-            <h4>{nextPokemon.name} #{nextPokemon.id}</h4>
-            <ArrowForward />
-        </Link>
-    </Container>
+{/* Pokedex description section */}
+
+    <div className="pokedex--desc">
+      <p><strong>PokeDex Description: </strong>{pokedexEntry.flavor_text_entries[3].flavor_text}</p>
     </div>
+</div>
+    
+{/* next and previous pokemon section */}
+
+     <Container className="next-prev-sect" style={{display: "flex", justifyContent: "space-evenly"}}>
+      <div>
+          <Link style={{textDecoration: "none"}} to={`/pokemon/${prevPokemonID}`}>
+              <Image style={{width: "120px", textDecoration: "none"}} src={`${prevPokemon.sprites.other["official-artwork"].front_default}`} />
+              <h4>{prevPokemon.name} #{prevPokemon.id}</h4>
+              <ArrowBack />
+          </Link>
+        </div>  
+
+        <div>
+          <Link style={{textDecoration: "none" }} to={`/pokemon/${nextPokemonID}`}>
+              <Image style={{width: "120px" }} src={`${nextPokemon.sprites.other["official-artwork"].front_default}`} />
+              <h4>{nextPokemon.name} #{nextPokemon.id}</h4>
+              <ArrowForward />
+          </Link>
+       </div> 
+    </Container>
+  </div>
   )
 }
 
