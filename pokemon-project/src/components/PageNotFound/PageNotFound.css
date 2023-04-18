@@ -1,0 +1,31 @@
+.outer--container {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 800px;
+  width: 600px;
+  border: 2px solid black;
+  border-radius: 20px;
+  margin-top: 50px;
+  padding: 0px;
+}
+
+.outer--container h1 {
+  font-size: 120px;
+ padding: 0px;
+ margin: 0;
+}
+
+.outer--container p {
+  font-size: 34px;
+}
+
+.outer--container #logo {
+  font-family: 'Pokemon Solid';
+  color: #ffcb05;
+  text-shadow: 0 0 3px #000, 0 0 5px #000;
+  outline: none;
+  outline-offset: -2px;
+}

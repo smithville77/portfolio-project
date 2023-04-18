@@ -1,8 +1,8 @@
 import Display from '../Display/Display';
 import NavBar from '../NavBar/NavBar';
 import ScrollToTop from '../ScrollToTop/ScrollToTop';
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom"
-import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+
 
 import './App.css';
 import PokeInfoPage from '../PokeInfoPage/PokeInfoPage';
