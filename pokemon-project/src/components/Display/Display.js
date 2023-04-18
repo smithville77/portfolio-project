@@ -32,7 +32,7 @@ const [loading, setLoading] = useState(false);
 document.getElementById('root').style.background = "white";
 
 useEffect(() => {
-  const URL = "https://pokeapi.co/api/v2/pokemon?limit=721";
+  const URL = "https://pokeapi.co/api/v2/pokemon?limit=641";
   fetch(URL)
     .then((res) => res.json())
     .then((data) => {
@@ -65,7 +65,7 @@ const handleNumSort = () => {
     
     //sets the state back to original URL, and maps original data
       
-      const URL = `https://pokeapi.co/api/v2/pokemon?limit=906&offset=0`;
+      const URL = `https://pokeapi.co/api/v2/pokemon?limit=641&offset=0`;
       fetch(URL)
       .then((res) => res.json())
       .then((data) => {
@@ -88,7 +88,7 @@ const handleNumSort = () => {
 
   // sets hero image
   const handleRandom = () => {
-    let randomNum = Math.floor(Math.random() * 721) + 1;
+    let randomNum = Math.floor(Math.random() * 649) + 1;
     let heroURL = `https://pokeapi.co/api/v2/pokemon/${randomNum}`
     fetch(heroURL)
       .then((res) => res.json())
@@ -141,9 +141,6 @@ const loadFunc = () => {
     setPage(page + 1);
     setLoading(false); // set loading state to false after the request is complete
   } else if (displayState !== "number" || displayState !== "alphabet" ) {
-    // const newResults = newDisplayList
-    // setResults([...newResults]);
-    // stop page loading if set to "type" list
     setLoading(false)
   }
   
@@ -176,9 +173,6 @@ const chooseHero = (heroName) => {
     .then((data) => {setHero(data);
     console.log(data)})
 }
-
-
-
 
   return (
     <>
