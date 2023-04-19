@@ -199,8 +199,6 @@ const chooseHero = (heroName) => {
                   type: 'search',
                 }}
               />
-
-              
             )}
             
           />
@@ -218,7 +216,7 @@ const chooseHero = (heroName) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Search input"
+                label="Search"
                 InputProps={{
                   ...params.InputProps,
                   type: 'search',
@@ -242,12 +240,14 @@ const chooseHero = (heroName) => {
     }
           
     {/* Maps over the types array and returns the symbol of the same name, each type is a button that sets the state of "type" with the value of the button when it's clicked */}
-    <Container className="type--symbol--container" style={{maxWidth: "700px"}}>
+    <Container className="type--symbol--container" style={{maxWidth: "750px"}}>
         <strong>Sort by Pokemon type</strong> <br />
+        <hr />
 
         {pokemonTypes.map(pokeType => {
           return <Button className="typeButton" value={pokeType} onClick={() =>setType(pokeType)}>
             <Image style={{width: "50px"}} src={require(`../images/images-SwSh/${pokeType}_icon_SwSh.png`)} />
+            <p style={{width: "60px"}}>{pokeType}</p>
             </Button>   
         })}
     </Container>
@@ -273,7 +273,7 @@ const chooseHero = (heroName) => {
                 loader={displayState === "number" || displayState === "alphabet" ? <div className="loader" key={0}>Loading ...</div> : <p style={{textAlign: "center"}}><strong> --- End of results ---</strong></p>}
             >
 
-                <Grid container className="grid--container" spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                <Grid container className="grid--container" spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{maxWidth: "1000px"}}>
                   {results.map((pokemon, index) => {
                     return (
                       <Grid key={index}>

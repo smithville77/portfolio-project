@@ -96,17 +96,23 @@
 
 .type--symbol--container {
   max-width: 500px;
-  margin-bottom: 50px;
-  margin-top: 40px;
+  /* margin-bottom: 50px; */
+  /* margin-top: 40px; */
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .type--symbol--container > strong {
   display: flex;
-  justify-content: center;
-  text-decoration: underline;
+  justify-content: flex-start;
   font-size: 18px;
+  margin-bottom: 0;
+}
+
+.typeButton {
+  display: flex;
+  flex-direction: column;
 }
 
 .btn--container {
@@ -123,4 +129,9 @@
 
 .loader {
     text-align: center;
+}
+
+hr {
+  background-color: #003a70;
+  height: 2px;
 }
