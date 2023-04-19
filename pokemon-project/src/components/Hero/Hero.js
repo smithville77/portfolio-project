@@ -14,7 +14,7 @@ function Hero(props) {
         <Image style={{maxHeight: "270px", width: "300px"}} src={`${image}`} />
         <h1 className="title">{titleCaseName}</h1>
         <Link to={`/pokemon/${id}`} className="link">
-          <Button className="button">Click to see more</Button>
+          <Button style={{backgroundColor: "#003a70", color: "white"}} className="button">More Information</Button>
         </Link>
       </Container>
     

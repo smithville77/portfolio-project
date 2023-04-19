@@ -178,12 +178,12 @@ function PokeInfoPage() {
     </Container>
 
 {/* two moves and their type || have the pokedex description*/}
-    <div style={{display: "grid", gridTemplateColumns: "auto 1fr", backgroundColor: "white"}}>
+    <div style={{display: "grid", gridTemplateColumns: "auto 1fr", backgroundColor: "white", paddingLeft: "40px"}}>
       <div id="moves">
         <p style={{margin: 0}}>Moves:</p>
       </div>
 
-  <Container className="moves--container">
+  <Container style={{width: "60%"}} className="moves--container">
 
     <div className="image--moves" >
       <Image style={{paddingRight: "10px", width: "30px", height: "30px"}} src={require(`../images/images-SwSh/${pokeObject.types[0].type.name}_icon_SwSh.png`)} />
@@ -231,7 +231,7 @@ function PokeInfoPage() {
     
 {/* next and previous pokemon section */}
 
-     <Container className="next-prev-sect" style={{display: "flex", justifyContent: "space-evenly", marginBottom: "100px"}}>
+     <Container className="next-prev-sect" style={{display: "flex", justifyContent: "space-evenly",paddingBottom: "150px", paddingTop: "50px"}}>
       <div>
           <Link style={{textDecoration: "none"}} to={`/pokemon/${prevPokemonID}`}>
               <Image style={{width: "120px", textDecoration: "none"}} src={`${prevPokemon.sprites.other["official-artwork"].front_default}`} />

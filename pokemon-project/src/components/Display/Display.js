@@ -54,15 +54,11 @@ useEffect(() => {
 const resetList = () => {
   setDisplayState("alphabet")
   setType(null)
-  // setChangeVal("")
   handleNumSort()
 }
 
 const handleNumSort = () => {
-
-  // making this change brought back functionality when changing between type ? num & alpha sort
-  // if (displayState === "alphabet") {
-    
+  
     //sets the state back to original URL, and maps original data
       
       const URL = `https://pokeapi.co/api/v2/pokemon?limit=641&offset=0`;
@@ -132,14 +128,14 @@ const handleNumSort = () => {
 
 
 const loadFunc = () => {
-  if (loading) return; // return early if a request is already in progress
+  if (loading) return; // return if a request is already in progress
   setLoading(true); 
   
   if (displayState === "number" || displayState === "alphabet") {
    const newResults = newDisplayList.slice((page - 1) * 20, page * 20); 
     setResults([...results, ...newResults]);
     setPage(page + 1);
-    setLoading(false); // set loading state to false after the request is complete
+    setLoading(false); 
   } else if (displayState !== "number" || displayState !== "alphabet" ) {
     setLoading(false)
   }
